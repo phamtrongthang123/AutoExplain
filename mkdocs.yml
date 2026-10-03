@@ -1,0 +1,28 @@
+site_name: AutoExplain
+site_description: Explain and intervene on model internals, with runnable experiments
+site_url: https://phamtrongthang123.github.io/AutoExplain/
+repo_url: https://github.com/phamtrongthang123/AutoExplain
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: cyan
+  features:
+    - navigation.tabs
+    - content.code.copy
+nav:
+  - Start here: index.md
+  - Playground: playground.md
+  - Methods and controls: methods.md
+  - Tool integrations: integrations.md
+  - Codex research planner: research.md
+  - CPU notebooks: notebooks.md
+  - Validation: validation.md
+  - Your model: models.md
+  - Diffusion and PolypSteer: diffusion.md
+  - API and limitations: api.md
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences

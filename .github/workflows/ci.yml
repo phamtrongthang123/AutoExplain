@@ -1,0 +1,61 @@
+name: Tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    env:
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      MPLBACKEND: Agg
+      USE_TF: '0'
+      CUDA_VISIBLE_DEVICES: ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e '.[dev,docs,playground,notebooks]'
+      - run: pytest -q
+      - run: python -m autoexplain.demo
+      - run: python scripts/validate_notebooks.py
+      - run: mkdocs build --strict
+      - run: python -m build
+  integrations:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '2'
+      USE_TF: '0'
+      CUDA_VISIBLE_DEVICES: ''
+      WANDB_MODE: disabled
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e '.[attribution,vision,tabular,diffusion,sae,jlens,openai,goodfire-local,notebooks,dev]'
+      - run: pytest tests/test_backends.py tests/test_frontier.py tests/test_integration_controls.py -q
+      - run: python scripts/validate_notebooks.py --group integrations
+  tracing:
+    runs-on: ubuntu-latest
+    env:
+      OMP_NUM_THREADS: '2'
+      USE_TF: '0'
+      CUDA_VISIBLE_DEVICES: ''
+      AUTOEXPLAIN_TRACING_TEST: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e '.[tracing,notebooks,dev]'
+      - run: pytest tests/test_tracing_backend.py -q
+      - run: python scripts/validate_notebooks.py --group tracing
