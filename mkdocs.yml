@@ -13,11 +13,18 @@ theme:
     - content.code.copy
 nav:
   - Start here: index.md
-  - Playground: playground.md
+  - Local studio: playground.md
+  - Studio UX reference: studio-ux.md
   - Methods and controls: methods.md
+  - Multimodal contributions: multimodal-contributions.md
+  - MM-SHAP and InterSHAP: feature-shap.md
+  - CLIP and multimodal concepts: multimodal-concepts.md
+  - Multimodal evaluation and tracing: multimodal-protocols.md
   - Tool integrations: integrations.md
   - Codex research planner: research.md
   - CPU notebooks: notebooks.md
+  - Pretrained Gemma 4: pretrained.md
+  - Natural Language Autoencoders: nla.md
   - Validation: validation.md
   - Your model: models.md
   - Diffusion and PolypSteer: diffusion.md

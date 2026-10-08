@@ -1,0 +1,1034 @@
+{
+  "model": {
+    "model_id": "google/gemma-4-E2B",
+    "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+    "dtype": "torch.bfloat16",
+    "quantized": false,
+    "decoder_device": "cuda:0",
+    "per_layer_embedding_device": "cpu",
+    "text_parameters": 4628569344,
+    "cpu_ple_parameters": 2348810240,
+    "load_seconds": 2.3837641929858364,
+    "ignored_nontext_weight_count": 1400,
+    "missing_text_weights": 0
+  },
+  "layers": [
+    0,
+    8,
+    16,
+    24,
+    34
+  ],
+  "random_seeds": [
+    7,
+    11,
+    19
+  ],
+  "pairs": [
+    {
+      "clean_prompt": "The capital of France is",
+      "recipient_prompt": "The capital of Germany is",
+      "target": " Paris",
+      "foil": " Berlin",
+      "target_id": 9079,
+      "foil_id": 15687,
+      "token_labels": [
+        "<bos>",
+        "The",
+        "\u2581capital",
+        "\u2581of",
+        "\u2581France",
+        "\u2581is"
+      ],
+      "positions": {
+        "changed_token": 4,
+        "last_token": 5
+      },
+      "clean_margin": 8.3125,
+      "recipient_margin": -7.125,
+      "clean_target_is_top1": true,
+      "recipient_foil_is_top1": true,
+      "clean_top5": [
+        {
+          "id": 9079,
+          "text": " Paris",
+          "probability": 0.25614070892333984
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.12099230289459229
+        },
+        {
+          "id": 506,
+          "text": " the",
+          "probability": 0.050437092781066895
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.03466487303376198
+        },
+        {
+          "id": 886,
+          "text": " one",
+          "probability": 0.03059164434671402
+        }
+      ],
+      "recipient_top5": [
+        {
+          "id": 15687,
+          "text": " Berlin",
+          "probability": 0.3574988543987274
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.07976878434419632
+        },
+        {
+          "id": 506,
+          "text": " the",
+          "probability": 0.04269715026021004
+        },
+        {
+          "id": 236743,
+          "text": " ",
+          "probability": 0.03768010064959526
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.03325257450342178
+        }
+      ],
+      "readouts": [
+        {
+          "layer": 0,
+          "margin": 2.15625,
+          "top_token_id": 90332
+        },
+        {
+          "layer": 8,
+          "margin": 2.75,
+          "top_token_id": 251866
+        },
+        {
+          "layer": 16,
+          "margin": -2.75,
+          "top_token_id": 7097
+        },
+        {
+          "layer": 24,
+          "margin": 2.25,
+          "top_token_id": 496
+        },
+        {
+          "layer": 34,
+          "margin": 8.3125,
+          "top_token_id": 9079
+        }
+      ],
+      "patches": [
+        {
+          "layer": 0,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -1.875,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 5.25,
+          "recovery_ratio": 0.340080971659919,
+          "random_margins": [
+            -5.75,
+            -7.875,
+            -6.6875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 0,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.25,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": -0.125,
+          "recovery_ratio": -0.008097165991902834,
+          "random_margins": [
+            -7.5625,
+            -7.4375,
+            -6.1875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": 6.75,
+          "top_token_id": 9079,
+          "top_token": " Paris",
+          "margin_change": 13.875,
+          "recovery_ratio": 0.8987854251012146,
+          "random_margins": [
+            -0.5,
+            -2.5,
+            -0.75
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.0,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 0.125,
+          "recovery_ratio": 0.008097165991902834,
+          "random_margins": [
+            -4.9375,
+            -6.4375,
+            -6.25
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.125,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.125,
+            -7.125,
+            -7.125
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -6.5,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 0.625,
+          "recovery_ratio": 0.04048582995951417,
+          "random_margins": [
+            -7.25,
+            -7.125,
+            -7.1875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.125,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.125,
+            -7.125,
+            -7.125
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -5.625,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 1.5,
+          "recovery_ratio": 0.09716599190283401,
+          "random_margins": [
+            -7.25,
+            -7.375,
+            -6.625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.125,
+          "top_token_id": 15687,
+          "top_token": " Berlin",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.125,
+            -7.125,
+            -7.125
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": 8.3125,
+          "top_token_id": 9079,
+          "top_token": " Paris",
+          "margin_change": 15.4375,
+          "recovery_ratio": 1.0,
+          "random_margins": [
+            -7.3125,
+            -4.75,
+            -6.375
+          ],
+          "trivial_final_readout_control": true
+        }
+      ],
+      "self_controls": [
+        {
+          "layer": 0,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 8,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 16,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 24,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 34,
+          "max_logit_error": 0.0
+        }
+      ],
+      "embedding_attribution": {
+        "main_embedding": {
+          "gradient_l2": [
+            0.10294733196496964,
+            0.08580009639263153,
+            0.20591719448566437,
+            0.08122264593839645,
+            0.19003072381019592,
+            0.05365334078669548
+          ],
+          "gradient_x_activation": [
+            0.0359005331993103,
+            0.05012662708759308,
+            -0.016086488962173462,
+            0.08779163658618927,
+            0.1738426685333252,
+            -0.01584220491349697
+          ]
+        },
+        "per_layer_embedding": {
+          "gradient_l2": [
+            0.8583067059516907,
+            0.029867401346564293,
+            0.2241162210702896,
+            0.026476582512259483,
+            0.2675985097885132,
+            0.11257557570934296
+          ],
+          "gradient_x_activation": [
+            -0.10869325697422028,
+            0.01386289019137621,
+            -0.2225828915834427,
+            0.017622891813516617,
+            -0.021300673484802246,
+            -0.09841792285442352
+          ]
+        }
+      },
+      "final_readout_margin_error": 0.0
+    },
+    {
+      "clean_prompt": "The capital of Italy is",
+      "recipient_prompt": "The capital of Spain is",
+      "target": " Rome",
+      "foil": " Madrid",
+      "target_id": 13706,
+      "foil_id": 19627,
+      "token_labels": [
+        "<bos>",
+        "The",
+        "\u2581capital",
+        "\u2581of",
+        "\u2581Italy",
+        "\u2581is"
+      ],
+      "positions": {
+        "changed_token": 4,
+        "last_token": 5
+      },
+      "clean_margin": 7.0,
+      "recipient_margin": -7.5,
+      "clean_target_is_top1": true,
+      "recipient_foil_is_top1": true,
+      "clean_top5": [
+        {
+          "id": 13706,
+          "text": " Rome",
+          "probability": 0.17849533259868622
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.13901230692863464
+        },
+        {
+          "id": 506,
+          "text": " the",
+          "probability": 0.05794895067811012
+        },
+        {
+          "id": 886,
+          "text": " one",
+          "probability": 0.045130688697099686
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.035147812217473984
+        }
+      ],
+      "recipient_top5": [
+        {
+          "id": 19627,
+          "text": " Madrid",
+          "probability": 0.19451773166656494
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.17166128754615784
+        },
+        {
+          "id": 886,
+          "text": " one",
+          "probability": 0.04918178170919418
+        },
+        {
+          "id": 506,
+          "text": " the",
+          "probability": 0.04918178170919418
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.0434027723968029
+        }
+      ],
+      "readouts": [
+        {
+          "layer": 0,
+          "margin": -16.765625,
+          "top_token_id": 90332
+        },
+        {
+          "layer": 8,
+          "margin": 0.375,
+          "top_token_id": 251866
+        },
+        {
+          "layer": 16,
+          "margin": 4.125,
+          "top_token_id": 162520
+        },
+        {
+          "layer": 24,
+          "margin": -1.875,
+          "top_token_id": 496
+        },
+        {
+          "layer": 34,
+          "margin": 7.0,
+          "top_token_id": 13706
+        }
+      ],
+      "patches": [
+        {
+          "layer": 0,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.125,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.375,
+          "recovery_ratio": 0.02586206896551724,
+          "random_margins": [
+            -8.8125,
+            -8.4375,
+            -7.625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 0,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.5625,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": -0.0625,
+          "recovery_ratio": -0.004310344827586207,
+          "random_margins": [
+            -7.875,
+            -7.625,
+            -6.875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": 5.5,
+          "top_token_id": 496,
+          "top_token": " a",
+          "margin_change": 13.0,
+          "recovery_ratio": 0.896551724137931,
+          "random_margins": [
+            -0.5,
+            -2.25,
+            -2.625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.75,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": -0.25,
+          "recovery_ratio": -0.017241379310344827,
+          "random_margins": [
+            -6.375,
+            -7.75,
+            -7.5625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.5,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.5,
+            -7.5,
+            -7.5
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.5,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.75,
+            -7.625,
+            -7.625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.5,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.5,
+            -7.5,
+            -7.5
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -7.125,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.375,
+          "recovery_ratio": 0.02586206896551724,
+          "random_margins": [
+            -7.375,
+            -7.375,
+            -7.5625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -7.5,
+          "top_token_id": 19627,
+          "top_token": " Madrid",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -7.5,
+            -7.5,
+            -7.5
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": 7.0,
+          "top_token_id": 13706,
+          "top_token": " Rome",
+          "margin_change": 14.5,
+          "recovery_ratio": 1.0,
+          "random_margins": [
+            -8.25,
+            -7.375,
+            -7.25
+          ],
+          "trivial_final_readout_control": true
+        }
+      ],
+      "self_controls": [
+        {
+          "layer": 0,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 8,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 16,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 24,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 34,
+          "max_logit_error": 0.0
+        }
+      ],
+      "embedding_attribution": {
+        "main_embedding": {
+          "gradient_l2": [
+            0.469036728143692,
+            0.3118402063846588,
+            0.9076672196388245,
+            0.3985333740711212,
+            0.7116017937660217,
+            0.22558312118053436
+          ],
+          "gradient_x_activation": [
+            0.030538178980350494,
+            0.03546054661273956,
+            0.3170185089111328,
+            0.2587442398071289,
+            0.20320208370685577,
+            0.028599344193935394
+          ]
+        },
+        "per_layer_embedding": {
+          "gradient_l2": [
+            0.6750337481498718,
+            0.06434673070907593,
+            0.6028293967247009,
+            0.06850528717041016,
+            0.6891955137252808,
+            0.1767731010913849
+          ],
+          "gradient_x_activation": [
+            0.0900677964091301,
+            0.02520809881389141,
+            -0.5912314057350159,
+            0.0966741293668747,
+            -0.7369656562805176,
+            -0.11730638146400452
+          ]
+        }
+      },
+      "final_readout_margin_error": 0.0
+    },
+    {
+      "clean_prompt": "The capital of Japan is",
+      "recipient_prompt": "The capital of China is",
+      "target": " Tokyo",
+      "foil": " Beijing",
+      "target_id": 21038,
+      "foil_id": 30530,
+      "token_labels": [
+        "<bos>",
+        "The",
+        "\u2581capital",
+        "\u2581of",
+        "\u2581Japan",
+        "\u2581is"
+      ],
+      "positions": {
+        "changed_token": 4,
+        "last_token": 5
+      },
+      "clean_margin": 6.9375,
+      "recipient_margin": -5.875,
+      "clean_target_is_top1": true,
+      "recipient_foil_is_top1": true,
+      "clean_top5": [
+        {
+          "id": 21038,
+          "text": " Tokyo",
+          "probability": 0.37627360224723816
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.07409265637397766
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.03965894132852554
+        },
+        {
+          "id": 236743,
+          "text": " ",
+          "probability": 0.03499889373779297
+        },
+        {
+          "id": 5628,
+          "text": " located",
+          "probability": 0.03499889373779297
+        }
+      ],
+      "recipient_top5": [
+        {
+          "id": 30530,
+          "text": " Beijing",
+          "probability": 0.2761736810207367
+        },
+        {
+          "id": 496,
+          "text": " a",
+          "probability": 0.08966047316789627
+        },
+        {
+          "id": 3224,
+          "text": " known",
+          "probability": 0.0373760461807251
+        },
+        {
+          "id": 506,
+          "text": " the",
+          "probability": 0.03298424556851387
+        },
+        {
+          "id": 528,
+          "text": " in",
+          "probability": 0.02910849265754223
+        }
+      ],
+      "readouts": [
+        {
+          "layer": 0,
+          "margin": 4.5,
+          "top_token_id": 90332
+        },
+        {
+          "layer": 8,
+          "margin": 19.125,
+          "top_token_id": 251866
+        },
+        {
+          "layer": 16,
+          "margin": -6.875,
+          "top_token_id": 162520
+        },
+        {
+          "layer": 24,
+          "margin": 2.125,
+          "top_token_id": 496
+        },
+        {
+          "layer": 34,
+          "margin": 6.9375,
+          "top_token_id": 21038
+        }
+      ],
+      "patches": [
+        {
+          "layer": 0,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -2.125,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 3.75,
+          "recovery_ratio": 0.2926829268292683,
+          "random_margins": [
+            -3.6875,
+            -5.0625,
+            -4.5
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 0,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -5.875,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -5.875,
+            -6.0,
+            -5.625
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": 5.125,
+          "top_token_id": 21038,
+          "top_token": " Tokyo",
+          "margin_change": 11.0,
+          "recovery_ratio": 0.8585365853658536,
+          "random_margins": [
+            -1.625,
+            -4.0,
+            -2.125
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 8,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -5.875,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -4.6875,
+            -5.1875,
+            -4.75
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -5.875,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -5.875,
+            -5.875,
+            -5.875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 16,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -6.375,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": -0.5,
+          "recovery_ratio": -0.03902439024390244,
+          "random_margins": [
+            -5.5,
+            -5.625,
+            -5.5
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -5.875,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -5.875,
+            -5.875,
+            -5.875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 24,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": -6.375,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": -0.5,
+          "recovery_ratio": -0.03902439024390244,
+          "random_margins": [
+            -6.0,
+            -5.4375,
+            -5.875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "changed_token",
+          "position": 4,
+          "margin": -5.875,
+          "top_token_id": 30530,
+          "top_token": " Beijing",
+          "margin_change": 0.0,
+          "recovery_ratio": 0.0,
+          "random_margins": [
+            -5.875,
+            -5.875,
+            -5.875
+          ],
+          "trivial_final_readout_control": false
+        },
+        {
+          "layer": 34,
+          "position_name": "last_token",
+          "position": 5,
+          "margin": 6.9375,
+          "top_token_id": 21038,
+          "top_token": " Tokyo",
+          "margin_change": 12.8125,
+          "recovery_ratio": 1.0,
+          "random_margins": [
+            -5.625,
+            -5.5,
+            -5.5625
+          ],
+          "trivial_final_readout_control": true
+        }
+      ],
+      "self_controls": [
+        {
+          "layer": 0,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 8,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 16,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 24,
+          "max_logit_error": 0.0
+        },
+        {
+          "layer": 34,
+          "max_logit_error": 0.0
+        }
+      ],
+      "embedding_attribution": {
+        "main_embedding": {
+          "gradient_l2": [
+            0.1729891449213028,
+            0.1347476691007614,
+            0.3371489346027374,
+            0.1249818354845047,
+            0.2572043836116791,
+            0.07444197684526443
+          ],
+          "gradient_x_activation": [
+            0.008462095633149147,
+            0.02708977833390236,
+            0.04701525717973709,
+            -0.012593016028404236,
+            0.057868242263793945,
+            0.015492819249629974
+          ]
+        },
+        "per_layer_embedding": {
+          "gradient_l2": [
+            0.6333617568016052,
+            0.04253820702433586,
+            0.2897505760192871,
+            0.038498684763908386,
+            0.3100666105747223,
+            0.11840348690748215
+          ],
+          "gradient_x_activation": [
+            0.030653879046440125,
+            0.031051013618707657,
+            -0.37354785203933716,
+            0.05492502078413963,
+            -0.2090509980916977,
+            -0.11082686483860016
+          ]
+        }
+      },
+      "final_readout_margin_error": 0.0
+    }
+  ],
+  "status": "completed",
+  "limitations": [
+    "Three predefined fact-completion contrasts are examples, not a benchmark.",
+    "No semantic concept discovery or J-lens fitting is claimed by plain logit-lens readouts.",
+    "Embedding gradient routes are conditional sensitivities, not completeness-certified attributions.",
+    "Residual patches leave token IDs, per-layer token embeddings and shared KV routes otherwise intact.",
+    "Final-layer last-token donor patch copies the answer readout: it is a positive control only.",
+    "Norm-matched random directions are sampled controls, not a statistical significance test.",
+    "Recovery ratios are not probabilities, may exceed one and depend on a nonzero baseline gap.",
+    "BF16 is unquantized here, but finite precision can affect small differences."
+  ],
+  "experiment_seconds": 4.070070220041089,
+  "gpu_peak_allocated_gib": 4.296273231506348,
+  "gpu_peak_reserved_gib": 4.337890625,
+  "gpu_name": "NVIDIA GeForce RTX 3080",
+  "total_seconds": 8.06971259904094,
+  "cpu_peak_rss_gib": 6.2313385009765625,
+  "python_version": "3.12.7",
+  "torch_version": "2.10.0+cu126",
+  "transformers_version": "5.18.0",
+  "threads": 2
+}

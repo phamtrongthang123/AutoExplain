@@ -5,6 +5,10 @@ provide many of the algorithms; AutoExplain adds small examples, common entry
 points, scoped interventions and explicit support boundaries. An adapter test is
 not a reproduction of an upstream paper or validation on a pretrained model.
 
+The separately validated [pretrained Gemma 4 tier](pretrained.md) executes
+attribution, patching and actual J-lens on real weights, with retained controls
+and failures. Use its separate environment and setup instructions.
+
 ## Install only the backends you need
 
 Python 3.12 is recommended for the full collection. The core still targets Python

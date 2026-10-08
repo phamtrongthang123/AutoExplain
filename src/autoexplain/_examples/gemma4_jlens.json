@@ -1,0 +1,1287 @@
+{
+  "estimator": {
+    "dim_batch": 8,
+    "max_seq_len": 24,
+    "reduction": "sum valid target positions, average valid source positions, then mean prompts",
+    "skip_first": 1
+  },
+  "fit_prompt_count": 4,
+  "fit_prompts": [
+    "A small bird landed on a branch near the window.",
+    "The student opened a book and began reading quietly.",
+    "Several people walked through the park after the rain.",
+    "We placed the wooden box on the table beside the door."
+  ],
+  "fit_seconds": 18.340736269950867,
+  "layer": 8,
+  "limitations": [
+    "Only four generic prompts estimate one layer; fit stability is not established.",
+    "Input-country recovery is a readability diagnostic, not next-token accuracy or reasoning validation.",
+    "One scrambled-matrix control and six examples are not a statistical significance test.",
+    "J-lens reads dispositions under an average linear transport, not literal internal thoughts.",
+    "Other token-identity/PLE and shared-KV paths are held fixed by the source-activation derivative.",
+    "The language model is pretrained; the fitted lens is an illustrative small-corpus estimate."
+  ],
+  "model": {
+    "cpu_ple_parameters": 2348810240,
+    "decoder_device": "cuda:0",
+    "dtype": "torch.bfloat16",
+    "ignored_nontext_weight_count": 1400,
+    "load_seconds": 2.5075620069983415,
+    "missing_text_weights": 0,
+    "model_id": "google/gemma-4-E2B",
+    "per_layer_embedding_device": "cpu",
+    "quantized": false,
+    "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+    "text_parameters": 4628569344
+  },
+  "rank_definition": "1 + number of strictly larger vocabulary scores; ties share rank",
+  "readouts": [
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 9079,
+          "logit": 22.375,
+          "text": " Paris"
+        },
+        {
+          "id": 496,
+          "logit": 21.625,
+          "text": " a"
+        },
+        {
+          "id": 506,
+          "logit": 20.75,
+          "text": " the"
+        },
+        {
+          "id": 3224,
+          "logit": 20.375,
+          "text": " known"
+        },
+        {
+          "id": 886,
+          "logit": 20.25,
+          "text": " one"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 83717,
+            "logit": 30.0,
+            "text": "法国"
+          },
+          {
+            "id": 7001,
+            "logit": 30.0,
+            "text": " France"
+          },
+          {
+            "id": 84198,
+            "logit": 30.0,
+            "text": " францу"
+          },
+          {
+            "id": 88240,
+            "logit": 30.0,
+            "text": " Strasbourg"
+          },
+          {
+            "id": 31756,
+            "logit": 30.0,
+            "text": "France"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 114312,
+            "logit": 29.125,
+            "text": "CharArray"
+          },
+          {
+            "id": 198870,
+            "logit": 29.125,
+            "text": "Invitation"
+          },
+          {
+            "id": 221961,
+            "logit": 29.0,
+            "text": " begeistert"
+          },
+          {
+            "id": 44480,
+            "logit": 29.0,
+            "text": " $|\\"
+          },
+          {
+            "id": 186150,
+            "logit": 29.0,
+            "text": "作った"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 210,
+            "logit": 29.5,
+            "text": "</i>"
+          },
+          {
+            "id": 68305,
+            "logit": 29.0,
+            "text": "كرة"
+          },
+          {
+            "id": 3582,
+            "logit": 29.0,
+            "text": " clear"
+          },
+          {
+            "id": 35776,
+            "logit": 29.0,
+            "text": " claro"
+          },
+          {
+            "id": 4763,
+            "logit": 28.875,
+            "text": "kay"
+          }
+        ]
+      },
+      "country_token": " France",
+      "country_token_id": 7001,
+      "country_token_ranks": {
+        "jacobian_lens": 1,
+        "logit_lens": 141590,
+        "scrambled_lens": 101958
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 147232,
+            "logit": 29.875,
+            "text": " város"
+          },
+          {
+            "id": 200400,
+            "logit": 29.875,
+            "text": " şehir"
+          },
+          {
+            "id": 98656,
+            "logit": 29.75,
+            "text": " столи"
+          },
+          {
+            "id": 102842,
+            "logit": 29.75,
+            "text": " château"
+          },
+          {
+            "id": 45823,
+            "logit": 29.75,
+            "text": " città"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.5,
+            "text": "긔"
+          },
+          {
+            "id": 180853,
+            "logit": 29.25,
+            "text": " spiaggia"
+          },
+          {
+            "id": 130736,
+            "logit": 29.25,
+            "text": "níku"
+          },
+          {
+            "id": 55084,
+            "logit": 29.125,
+            "text": "dto"
+          },
+          {
+            "id": 125468,
+            "logit": 29.0,
+            "text": "趣味"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 162146,
+            "logit": 29.125,
+            "text": "گذار"
+          },
+          {
+            "id": 52513,
+            "logit": 29.0,
+            "text": "conde"
+          },
+          {
+            "id": 210,
+            "logit": 29.0,
+            "text": "</i>"
+          },
+          {
+            "id": 242079,
+            "logit": 28.75,
+            "text": "ཀ"
+          },
+          {
+            "id": 44095,
+            "logit": 28.75,
+            "text": "catalog"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of France is"
+    },
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 15687,
+          "logit": 21.375,
+          "text": " Berlin"
+        },
+        {
+          "id": 496,
+          "logit": 19.875,
+          "text": " a"
+        },
+        {
+          "id": 506,
+          "logit": 19.25,
+          "text": " the"
+        },
+        {
+          "id": 236743,
+          "logit": 19.125,
+          "text": " "
+        },
+        {
+          "id": 3224,
+          "logit": 19.0,
+          "text": " known"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 34692,
+            "logit": 30.0,
+            "text": "Germany"
+          },
+          {
+            "id": 28426,
+            "logit": 30.0,
+            "text": " Austria"
+          },
+          {
+            "id": 95129,
+            "logit": 30.0,
+            "text": "Austria"
+          },
+          {
+            "id": 99930,
+            "logit": 30.0,
+            "text": " Frankreich"
+          },
+          {
+            "id": 9405,
+            "logit": 30.0,
+            "text": " Germany"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 64879,
+            "logit": 29.0,
+            "text": " reacting"
+          },
+          {
+            "id": 57416,
+            "logit": 29.0,
+            "text": " contacting"
+          },
+          {
+            "id": 67728,
+            "logit": 29.0,
+            "text": " fazendo"
+          },
+          {
+            "id": 71064,
+            "logit": 29.0,
+            "text": "ulsions"
+          },
+          {
+            "id": 68724,
+            "logit": 29.0,
+            "text": "ற்றில்"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 127001,
+            "logit": 27.75,
+            "text": "quilla"
+          },
+          {
+            "id": 75318,
+            "logit": 27.125,
+            "text": " khỏi"
+          },
+          {
+            "id": 24437,
+            "logit": 27.0,
+            "text": " keen"
+          },
+          {
+            "id": 198225,
+            "logit": 26.875,
+            "text": "ковка"
+          },
+          {
+            "id": 138488,
+            "logit": 26.875,
+            "text": "getConfig"
+          }
+        ]
+      },
+      "country_token": " Germany",
+      "country_token_id": 9405,
+      "country_token_ranks": {
+        "jacobian_lens": 1,
+        "logit_lens": 157630,
+        "scrambled_lens": 171915
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 162037,
+            "logit": 29.875,
+            "text": " Avrupa"
+          },
+          {
+            "id": 147232,
+            "logit": 29.875,
+            "text": " város"
+          },
+          {
+            "id": 200400,
+            "logit": 29.875,
+            "text": " şehir"
+          },
+          {
+            "id": 226967,
+            "logit": 29.875,
+            "text": " 유럽"
+          },
+          {
+            "id": 98656,
+            "logit": 29.875,
+            "text": " столи"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.5,
+            "text": "긔"
+          },
+          {
+            "id": 55084,
+            "logit": 29.25,
+            "text": "dto"
+          },
+          {
+            "id": 149010,
+            "logit": 29.25,
+            "text": " 동일"
+          },
+          {
+            "id": 14030,
+            "logit": 29.125,
+            "text": "stmt"
+          },
+          {
+            "id": 114312,
+            "logit": 29.0,
+            "text": "CharArray"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 162146,
+            "logit": 29.0,
+            "text": "گذار"
+          },
+          {
+            "id": 210,
+            "logit": 28.75,
+            "text": "</i>"
+          },
+          {
+            "id": 242079,
+            "logit": 28.5,
+            "text": "ཀ"
+          },
+          {
+            "id": 52513,
+            "logit": 28.5,
+            "text": "conde"
+          },
+          {
+            "id": 26736,
+            "logit": 28.5,
+            "text": " calidad"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of Germany is"
+    },
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 13706,
+          "logit": 22.125,
+          "text": " Rome"
+        },
+        {
+          "id": 496,
+          "logit": 21.875,
+          "text": " a"
+        },
+        {
+          "id": 506,
+          "logit": 21.0,
+          "text": " the"
+        },
+        {
+          "id": 886,
+          "logit": 20.75,
+          "text": " one"
+        },
+        {
+          "id": 3224,
+          "logit": 20.5,
+          "text": " known"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 88240,
+            "logit": 30.0,
+            "text": " Strasbourg"
+          },
+          {
+            "id": 65859,
+            "logit": 30.0,
+            "text": "Italy"
+          },
+          {
+            "id": 96841,
+            "logit": 30.0,
+            "text": "イタリア"
+          },
+          {
+            "id": 98892,
+            "logit": 30.0,
+            "text": " italien"
+          },
+          {
+            "id": 11702,
+            "logit": 30.0,
+            "text": " Italy"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 185854,
+            "logit": 29.25,
+            "text": "受信"
+          },
+          {
+            "id": 254976,
+            "logit": 29.25,
+            "text": "ϝ"
+          },
+          {
+            "id": 153926,
+            "logit": 29.125,
+            "text": " مذا"
+          },
+          {
+            "id": 57416,
+            "logit": 29.0,
+            "text": " contacting"
+          },
+          {
+            "id": 140904,
+            "logit": 29.0,
+            "text": "receptor"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 185714,
+            "logit": 28.625,
+            "text": "кож"
+          },
+          {
+            "id": 198225,
+            "logit": 28.125,
+            "text": "ковка"
+          },
+          {
+            "id": 138488,
+            "logit": 27.75,
+            "text": "getConfig"
+          },
+          {
+            "id": 84293,
+            "logit": 27.5,
+            "text": "қи"
+          },
+          {
+            "id": 127001,
+            "logit": 27.125,
+            "text": "quilla"
+          }
+        ]
+      },
+      "country_token": " Italy",
+      "country_token_id": 11702,
+      "country_token_ranks": {
+        "jacobian_lens": 1,
+        "logit_lens": 101719,
+        "scrambled_lens": 227661
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 98656,
+            "logit": 29.875,
+            "text": " столи"
+          },
+          {
+            "id": 162037,
+            "logit": 29.875,
+            "text": " Avrupa"
+          },
+          {
+            "id": 200400,
+            "logit": 29.875,
+            "text": " şehir"
+          },
+          {
+            "id": 226967,
+            "logit": 29.875,
+            "text": " 유럽"
+          },
+          {
+            "id": 147232,
+            "logit": 29.875,
+            "text": " város"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.5,
+            "text": "긔"
+          },
+          {
+            "id": 180853,
+            "logit": 29.25,
+            "text": " spiaggia"
+          },
+          {
+            "id": 55084,
+            "logit": 29.125,
+            "text": "dto"
+          },
+          {
+            "id": 149010,
+            "logit": 29.125,
+            "text": " 동일"
+          },
+          {
+            "id": 86118,
+            "logit": 29.0,
+            "text": " превра"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 162146,
+            "logit": 29.0,
+            "text": "گذار"
+          },
+          {
+            "id": 52513,
+            "logit": 29.0,
+            "text": "conde"
+          },
+          {
+            "id": 16481,
+            "logit": 28.75,
+            "text": "calcul"
+          },
+          {
+            "id": 44095,
+            "logit": 28.75,
+            "text": "catalog"
+          },
+          {
+            "id": 210,
+            "logit": 28.75,
+            "text": "</i>"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of Italy is"
+    },
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 19627,
+          "logit": 23.0,
+          "text": " Madrid"
+        },
+        {
+          "id": 496,
+          "logit": 22.875,
+          "text": " a"
+        },
+        {
+          "id": 506,
+          "logit": 21.625,
+          "text": " the"
+        },
+        {
+          "id": 886,
+          "logit": 21.625,
+          "text": " one"
+        },
+        {
+          "id": 3224,
+          "logit": 21.5,
+          "text": " known"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 111922,
+            "logit": 30.0,
+            "text": " Alemania"
+          },
+          {
+            "id": 96335,
+            "logit": 30.0,
+            "text": " Inglaterra"
+          },
+          {
+            "id": 133732,
+            "logit": 30.0,
+            "text": "Madrid"
+          },
+          {
+            "id": 147531,
+            "logit": 30.0,
+            "text": " Espagne"
+          },
+          {
+            "id": 79932,
+            "logit": 30.0,
+            "text": "Spain"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 198870,
+            "logit": 29.25,
+            "text": "Invitation"
+          },
+          {
+            "id": 254976,
+            "logit": 29.25,
+            "text": "ϝ"
+          },
+          {
+            "id": 104884,
+            "logit": 29.0,
+            "text": "Potential"
+          },
+          {
+            "id": 114312,
+            "logit": 29.0,
+            "text": "CharArray"
+          },
+          {
+            "id": 44480,
+            "logit": 29.0,
+            "text": " $|\\"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 198225,
+            "logit": 28.25,
+            "text": "ковка"
+          },
+          {
+            "id": 127001,
+            "logit": 28.0,
+            "text": "quilla"
+          },
+          {
+            "id": 248606,
+            "logit": 27.5,
+            "text": "囱"
+          },
+          {
+            "id": 138488,
+            "logit": 27.375,
+            "text": "getConfig"
+          },
+          {
+            "id": 84293,
+            "logit": 27.25,
+            "text": "қи"
+          }
+        ]
+      },
+      "country_token": " Spain",
+      "country_token_id": 14145,
+      "country_token_ranks": {
+        "jacobian_lens": 12,
+        "logit_lens": 225802,
+        "scrambled_lens": 246839
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 147232,
+            "logit": 30.0,
+            "text": " város"
+          },
+          {
+            "id": 102842,
+            "logit": 29.875,
+            "text": " château"
+          },
+          {
+            "id": 42924,
+            "logit": 29.875,
+            "text": " город"
+          },
+          {
+            "id": 45823,
+            "logit": 29.875,
+            "text": " città"
+          },
+          {
+            "id": 98656,
+            "logit": 29.875,
+            "text": " столи"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.5,
+            "text": "긔"
+          },
+          {
+            "id": 180853,
+            "logit": 29.375,
+            "text": " spiaggia"
+          },
+          {
+            "id": 159126,
+            "logit": 29.125,
+            "text": " nft"
+          },
+          {
+            "id": 55084,
+            "logit": 29.125,
+            "text": "dto"
+          },
+          {
+            "id": 130736,
+            "logit": 29.125,
+            "text": "níku"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 162146,
+            "logit": 29.125,
+            "text": "گذار"
+          },
+          {
+            "id": 52513,
+            "logit": 28.875,
+            "text": "conde"
+          },
+          {
+            "id": 242079,
+            "logit": 28.75,
+            "text": "ཀ"
+          },
+          {
+            "id": 88597,
+            "logit": 28.5,
+            "text": "cort"
+          },
+          {
+            "id": 210,
+            "logit": 28.375,
+            "text": "</i>"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of Spain is"
+    },
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 21038,
+          "logit": 21.875,
+          "text": " Tokyo"
+        },
+        {
+          "id": 496,
+          "logit": 20.25,
+          "text": " a"
+        },
+        {
+          "id": 3224,
+          "logit": 19.625,
+          "text": " known"
+        },
+        {
+          "id": 236743,
+          "logit": 19.5,
+          "text": " "
+        },
+        {
+          "id": 5628,
+          "logit": 19.5,
+          "text": " located"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 12139,
+            "logit": 30.0,
+            "text": " Japanese"
+          },
+          {
+            "id": 10956,
+            "logit": 30.0,
+            "text": "日本"
+          },
+          {
+            "id": 15303,
+            "logit": 30.0,
+            "text": " Hong"
+          },
+          {
+            "id": 21038,
+            "logit": 30.0,
+            "text": " Tokyo"
+          },
+          {
+            "id": 6056,
+            "logit": 30.0,
+            "text": " Japan"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 215752,
+            "logit": 29.125,
+            "text": "扩散"
+          },
+          {
+            "id": 61886,
+            "logit": 29.125,
+            "text": " dragging"
+          },
+          {
+            "id": 179635,
+            "logit": 29.0,
+            "text": " TouchUtils"
+          },
+          {
+            "id": 76952,
+            "logit": 29.0,
+            "text": "غاز"
+          },
+          {
+            "id": 215180,
+            "logit": 29.0,
+            "text": "Dougall"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 84293,
+            "logit": 28.625,
+            "text": "қи"
+          },
+          {
+            "id": 111439,
+            "logit": 28.5,
+            "text": " gereken"
+          },
+          {
+            "id": 216241,
+            "logit": 28.375,
+            "text": " Mahmud"
+          },
+          {
+            "id": 224441,
+            "logit": 28.25,
+            "text": "こだわり"
+          },
+          {
+            "id": 132462,
+            "logit": 28.25,
+            "text": "қу"
+          }
+        ]
+      },
+      "country_token": " Japan",
+      "country_token_id": 6056,
+      "country_token_ranks": {
+        "jacobian_lens": 1,
+        "logit_lens": 216039,
+        "scrambled_lens": 197569
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 146332,
+            "logit": 29.875,
+            "text": "Beijing"
+          },
+          {
+            "id": 147232,
+            "logit": 29.875,
+            "text": " város"
+          },
+          {
+            "id": 30530,
+            "logit": 29.75,
+            "text": " Beijing"
+          },
+          {
+            "id": 139772,
+            "logit": 29.75,
+            "text": " Nanjing"
+          },
+          {
+            "id": 114987,
+            "logit": 29.75,
+            "text": " Prefecture"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.5,
+            "text": "긔"
+          },
+          {
+            "id": 180853,
+            "logit": 29.25,
+            "text": " spiaggia"
+          },
+          {
+            "id": 130736,
+            "logit": 29.125,
+            "text": "níku"
+          },
+          {
+            "id": 114312,
+            "logit": 29.125,
+            "text": "CharArray"
+          },
+          {
+            "id": 55084,
+            "logit": 29.0,
+            "text": "dto"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 210,
+            "logit": 29.125,
+            "text": "</i>"
+          },
+          {
+            "id": 162146,
+            "logit": 29.0,
+            "text": "گذار"
+          },
+          {
+            "id": 52513,
+            "logit": 28.875,
+            "text": "conde"
+          },
+          {
+            "id": 176709,
+            "logit": 28.375,
+            "text": " للغاية"
+          },
+          {
+            "id": 26736,
+            "logit": 28.25,
+            "text": " calidad"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of Japan is"
+    },
+    {
+      "actual_next_token_top5": [
+        {
+          "id": 30530,
+          "logit": 22.0,
+          "text": " Beijing"
+        },
+        {
+          "id": 496,
+          "logit": 20.875,
+          "text": " a"
+        },
+        {
+          "id": 3224,
+          "logit": 20.0,
+          "text": " known"
+        },
+        {
+          "id": 506,
+          "logit": 19.875,
+          "text": " the"
+        },
+        {
+          "id": 528,
+          "logit": 19.75,
+          "text": " in"
+        }
+      ],
+      "country_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 8555,
+            "logit": 30.0,
+            "text": " Chinese"
+          },
+          {
+            "id": 11064,
+            "logit": 30.0,
+            "text": "中国"
+          },
+          {
+            "id": 15303,
+            "logit": 30.0,
+            "text": " Hong"
+          },
+          {
+            "id": 25428,
+            "logit": 30.0,
+            "text": " Taiwan"
+          },
+          {
+            "id": 5818,
+            "logit": 30.0,
+            "text": " China"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 198870,
+            "logit": 29.375,
+            "text": "Invitation"
+          },
+          {
+            "id": 76952,
+            "logit": 29.125,
+            "text": "غاز"
+          },
+          {
+            "id": 211932,
+            "logit": 29.125,
+            "text": "seekg"
+          },
+          {
+            "id": 57416,
+            "logit": 29.125,
+            "text": " contacting"
+          },
+          {
+            "id": 54843,
+            "logit": 29.0,
+            "text": "采购"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 16199,
+            "logit": 27.5,
+            "text": "كون"
+          },
+          {
+            "id": 75318,
+            "logit": 27.5,
+            "text": " khỏi"
+          },
+          {
+            "id": 224441,
+            "logit": 27.25,
+            "text": "こだわり"
+          },
+          {
+            "id": 56457,
+            "logit": 27.25,
+            "text": " gauche"
+          },
+          {
+            "id": 62578,
+            "logit": 27.125,
+            "text": "hya"
+          }
+        ]
+      },
+      "country_token": " China",
+      "country_token_id": 5818,
+      "country_token_ranks": {
+        "jacobian_lens": 1,
+        "logit_lens": 171617,
+        "scrambled_lens": 174539
+      },
+      "last_readouts": {
+        "jacobian_lens": [
+          {
+            "id": 30530,
+            "logit": 29.875,
+            "text": " Beijing"
+          },
+          {
+            "id": 111594,
+            "logit": 29.875,
+            "text": " Guangzhou"
+          },
+          {
+            "id": 114987,
+            "logit": 29.875,
+            "text": " Prefecture"
+          },
+          {
+            "id": 139772,
+            "logit": 29.875,
+            "text": " Nanjing"
+          },
+          {
+            "id": 98656,
+            "logit": 29.875,
+            "text": " столи"
+          }
+        ],
+        "logit_lens": [
+          {
+            "id": 251866,
+            "logit": 29.375,
+            "text": "긔"
+          },
+          {
+            "id": 180853,
+            "logit": 29.375,
+            "text": " spiaggia"
+          },
+          {
+            "id": 159126,
+            "logit": 29.125,
+            "text": " nft"
+          },
+          {
+            "id": 149010,
+            "logit": 29.125,
+            "text": " 동일"
+          },
+          {
+            "id": 230411,
+            "logit": 29.125,
+            "text": " setDescription"
+          }
+        ],
+        "scrambled_lens": [
+          {
+            "id": 162146,
+            "logit": 29.0,
+            "text": "گذار"
+          },
+          {
+            "id": 210,
+            "logit": 29.0,
+            "text": "</i>"
+          },
+          {
+            "id": 176709,
+            "logit": 28.875,
+            "text": " للغاية"
+          },
+          {
+            "id": 52513,
+            "logit": 28.75,
+            "text": "conde"
+          },
+          {
+            "id": 83861,
+            "logit": 28.5,
+            "text": "ложить"
+          }
+        ]
+      },
+      "positions": {
+        "country": 4,
+        "last": 5
+      },
+      "prompt": "The capital of China is"
+    }
+  ],
+  "scramble_seed": 11,
+  "status": "completed",
+  "total_fit_and_readout_seconds": 18.890728309983388,
+  "transport_frobenius_norm": 48.55608367919922
+}

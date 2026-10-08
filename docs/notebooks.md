@@ -1,4 +1,12 @@
-# Thirteen offline CPU tutorial notebooks
+# Tutorial notebooks
+
+There are **thirteen offline CPU tutorials** below and **two separately executed
+pretrained Gemma 4 notebooks** (14: interventions; 15: actual J-lens). See
+[pretrained setup and results](pretrained.md). The CPU-only descriptions below
+apply to notebooks 01–13; the pretrained group retains CUDA visibility and
+requires the pinned checkpoint already cached.
+
+## Thirteen offline CPU tutorials
 
 These playgrounds use small synthetic datasets and either tiny trained models or explicitly labeled random fixtures.
 They require no network, checkpoints, API keys, or external datasets. They are

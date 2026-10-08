@@ -33,15 +33,19 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--timeout", type=int, default=180, help="Timeout per cell in seconds")
-    parser.add_argument("--group", choices=["base", "integrations", "tracing"], default="base")
+    parser.add_argument("--group", choices=["base", "integrations", "tracing", "pretrained"], default="base")
     args = parser.parse_args()
-    names = {"base": NAMES, "integrations": INTEGRATIONS, "tracing": ("13_circuit_tracing",)}[args.group]
+    names = {"base": NAMES, "integrations": INTEGRATIONS, "tracing": ("13_circuit_tracing",),
+             "pretrained": ("14_gemma4_pretrained", "15_gemma4_jacobian_lens",)}[args.group]
     root = Path(__file__).resolve().parents[1]
     os.environ["OMP_NUM_THREADS"] = "2"
     os.environ["MKL_NUM_THREADS"] = "2"
     os.environ["OPENBLAS_NUM_THREADS"] = "2"
     os.environ["MPLBACKEND"] = "module://matplotlib_inline.backend_inline"
-    os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    if args.group != "pretrained":
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    else:
+        os.environ["HF_HUB_OFFLINE"] = "1"
     reports = []
     os.environ["USE_TF"] = "0"
     os.environ["WANDB_MODE"] = "disabled"

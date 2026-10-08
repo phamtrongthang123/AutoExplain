@@ -1,13 +1,14 @@
 # Validation evidence
 
-## Local verification of version 0.2
+## Offline CPU verification of version 0.2
 
 The implementation was checked on a Linux i7-12700F machine using Python 3.12.7
 and CPU PyTorch 2.10.0.dev20251025. Training and notebook kernels used two threads.
 No GPU jobs, external model downloads, paid hosted requests or private datasets
 were required for the recorded tutorial executions.
 
-- Main test suite: **105 passed, one intentionally skipped**, 14.29 seconds.
+- Main test suite after pretrained additions: **121 passed, two skipped**, 14.22 seconds.
+  Skips cover the CUDA placement check in this CPU run and isolated circuit tracing.
 - Isolated circuit-tracer test: **one passed**; its main-environment skip is
   intentional because Transformers dependency requirements conflict.
 - All **13 notebooks executed**, with outputs and runtime metadata retained.
@@ -61,15 +62,24 @@ establish the semantic interpretations or convergence reported in research paper
 The image diffusion notebook runs an actual Diffusers U-Net, but its small bars
 experiment is not text-to-image generation or a PolypSteer reproduction.
 
+## Additional real pretrained validation
+
+Notebooks 14 and 15 also executed on the pinned Gemma 4 E2B checkpoint using
+PyTorch 2.10.0+cu126 and Transformers 5.18. They took 12.544 and 27.102 seconds,
+with peak allocated GPU memory 4.296 and 4.601 GiB respectively. Unlike the CPU
+tier, initial setup downloads real weights. See [full results](pretrained.md)
+for the six correct baselines, two successful top-1 patches, retained Italy
+failure, two embedding-route gradients and held-out J-lens comparisons.
+
 ## External capabilities not validated
 
-- Google Gemma Scope 2 pretrained artifacts and base models: loader API exists,
+- Google Gemma Scope 2 pretrained dictionaries and their Gemma 3 base models: loader API exists,
   but no real artifact download/evaluation was performed.
 - Goodfire Ember live API: opt-in wrapper and mocked transport checks only;
   service enrollment/availability is unverified.
 - Codex GPT-6-Luna: model identifier exists in the local CLI cache; command/schema
   tests are mocked. No successful live request is claimed by this report.
-- Full PixArt/PolypSteer intervention policy, pretrained language-model semantic
+- Full PixArt/PolypSteer intervention policy, generalizable pretrained language-model semantic
   findings, complete TCAV significance studies, and arbitrary-model automatic
   compatibility are not established.
 
