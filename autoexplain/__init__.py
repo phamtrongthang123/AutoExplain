@@ -1,19 +1,12 @@
-"""AutoExplain: Autonomous Agentic Explainable AI (XAI) Platform."""
+"""AutoExplain: Minimal, persistent XAI browser harness for neural networks."""
 
-from autoexplain.agent.investigator import Investigator
-from autoexplain.core.adapter import ModelAdapter
-from autoexplain.nla import NLATool, NaturalLanguageAutoencoder
-from autoexplain.reporting.report import InvestigationReport
-from autoexplain.tools.registry import ToolRegistry, register_tool
+from autoexplain.experiment import ExperimentRecord, RunOutput
+from autoexplain.harness import Harness
 
-__version__ = "0.1.0a0"
+__version__ = "0.1.0"
 
 __all__ = [
-    "Investigator",
-    "ModelAdapter",
-    "InvestigationReport",
-    "ToolRegistry",
-    "register_tool",
-    "NaturalLanguageAutoencoder",
-    "NLATool",
+    "Harness",
+    "RunOutput",
+    "ExperimentRecord",
 ]
