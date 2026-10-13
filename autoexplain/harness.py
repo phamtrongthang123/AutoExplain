@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
@@ -23,13 +22,17 @@ class Harness:
 
         # Persistent session state
         self._active_interventions: List[Dict[str, Any]] = []
-        self._last_interventions: List[Dict[str, Any]] = []
         self._last_prompt: Optional[str] = None
         self._last_output: Optional[RunOutput] = None
         self._last_cache: Any = None
+        self._cached_layer: Optional[int] = None
+        self._cached_prompt: Optional[str] = None
+
+        # Evaluation & experiment tracking
         self._last_baseline: Optional[RunOutput] = None
         self._last_modified: Optional[RunOutput] = None
         self._last_evaluation: Optional[Dict[str, Any]] = None
+        self._last_evaluation_interventions: Optional[List[Dict[str, Any]]] = None
 
     def open_model(self, model_name: str = "gpt2", device: Optional[str] = None) -> Dict[str, Any]:
         """Load a Transformer model into memory, persisting weights across experiments."""
@@ -117,22 +120,20 @@ class Harness:
         return hooks
 
     def run(self, prompt: str, max_new_tokens: int = 0) -> RunOutput:
-        """Run model inference, applying any configured interventions."""
+        """Run model inference in inference mode without capturing unneeded activations."""
         if self.model is None:
             raise RuntimeError("No model loaded. Call open_model() first.")
 
         hooks = self._build_fwd_hooks()
 
-        if hooks:
-            with self.model.hooks(fwd_hooks=hooks):
-                logits, cache = self.model.run_with_cache(prompt)
-        else:
-            logits, cache = self.model.run_with_cache(prompt)
+        with torch.inference_mode():
+            if hooks:
+                with self.model.hooks(fwd_hooks=hooks):
+                    logits = self.model(prompt)
+            else:
+                logits = self.model(prompt)
 
         self._last_prompt = prompt
-        self._last_cache = cache
-        if self._active_interventions:
-            self._last_interventions = list(self._active_interventions)
 
         # Compute top predicted tokens at final position
         last_logits = logits[0, -1]
@@ -151,23 +152,28 @@ class Harness:
 
         output_text = prompt
         if max_new_tokens > 0:
-            if hooks:
-                with self.model.hooks(fwd_hooks=hooks):
+            with torch.inference_mode():
+                if hooks:
+                    with self.model.hooks(fwd_hooks=hooks):
+                        output_text = self.model.generate(prompt, max_new_tokens=max_new_tokens, verbose=False)
+                else:
                     output_text = self.model.generate(prompt, max_new_tokens=max_new_tokens, verbose=False)
-            else:
-                output_text = self.model.generate(prompt, max_new_tokens=max_new_tokens, verbose=False)
 
         run_out = RunOutput(
             prompt=prompt,
             text=output_text,
             logits=last_logits.detach().cpu(),
             top_tokens=top_tokens,
+            interventions=list(self._active_interventions),
         )
         self._last_output = run_out
         return run_out
 
     def observe(self, layer: int, prompt: Optional[str] = None) -> Dict[str, Any]:
-        """Inspect internal activations, attention, and logits for the current prompt."""
+        """Inspect internal activations, attention, and logits for the current prompt.
+
+        Captures only the requested layer activations on demand to prevent memory bloat.
+        """
         if self.model is None:
             raise RuntimeError("No model loaded. Call open_model() first.")
 
@@ -175,11 +181,28 @@ class Harness:
         if active_prompt is None:
             raise ValueError("No prompt provided and no previous run recorded.")
 
-        # Re-run if cache is missing or prompt changed
-        if self._last_cache is None or active_prompt != self._last_prompt:
-            self.run(active_prompt)
+        # Cache is valid only if captured for the exact same layer, prompt, and intervention state
+        cache_valid = (
+            self._last_cache is not None
+            and self._cached_layer == layer
+            and self._cached_prompt == active_prompt
+        )
 
-        cache = self._last_cache
+        if not cache_valid:
+            hooks = self._build_fwd_hooks()
+            layer_filter = lambda name: name.startswith(f"blocks.{layer}.")
+            with torch.inference_mode():
+                if hooks:
+                    with self.model.hooks(fwd_hooks=hooks):
+                        _logits, cache = self.model.run_with_cache(active_prompt, names_filter=layer_filter)
+                else:
+                    _logits, cache = self.model.run_with_cache(active_prompt, names_filter=layer_filter)
+            self._last_cache = cache
+            self._cached_layer = layer
+            self._cached_prompt = active_prompt
+        else:
+            cache = self._last_cache
+
         tokens = self.model.to_str_tokens(active_prompt)
 
         # 1. Residual stream norm at layer output
@@ -204,7 +227,11 @@ class Harness:
         mlp_out_key = f"blocks.{layer}.hook_mlp_out"
         mlp_out_norm = float(cache[mlp_out_key].norm(dim=-1).mean().item()) if mlp_out_key in cache else 0.0
 
-        top_predictions = self._last_output.top_tokens if self._last_output else []
+        top_predictions = (
+            self._last_output.top_tokens
+            if (self._last_output and self._last_output.prompt == active_prompt)
+            else []
+        )
 
         return {
             "layer": layer,
@@ -235,11 +262,21 @@ class Harness:
             "value": value,
         }
         self._active_interventions.append(cfg)
+
+        # Invalidate cached activations because model state changed
+        self._last_cache = None
+        self._cached_layer = None
+        self._cached_prompt = None
         return list(self._active_interventions)
 
     def reset(self) -> Harness:
         """Restore baseline behavior without reloading model weights."""
         self._active_interventions.clear()
+
+        # Invalidate cached activations to prevent stale observations
+        self._last_cache = None
+        self._cached_layer = None
+        self._cached_prompt = None
         return self
 
     def evaluate(self, baseline: RunOutput, modified: RunOutput) -> Dict[str, Any]:
@@ -279,6 +316,8 @@ class Harness:
 
         self._last_baseline = baseline
         self._last_modified = modified
+        # Tie intervention metadata to the evaluated modified run
+        self._last_evaluation_interventions = list(modified.interventions)
         self._last_evaluation = result
         return result
 
@@ -286,12 +325,24 @@ class Harness:
         """Save experiment configuration and measured results as JSON."""
         target_path = Path(path) if path else Path("experiments") / f"{experiment_id}.json"
 
-        interventions = list(self._active_interventions) if self._active_interventions else list(self._last_interventions)
+        # Prioritize interventions from the evaluated run pair
+        if self._last_evaluation_interventions is not None:
+            interventions = list(self._last_evaluation_interventions)
+        elif self._last_modified is not None:
+            interventions = list(self._last_modified.interventions)
+        else:
+            interventions = list(self._active_interventions)
+
+        prompt_str = (
+            self._last_modified.prompt
+            if self._last_modified
+            else (self._last_prompt or "")
+        )
 
         record = ExperimentRecord(
             experiment_id=experiment_id,
             model=self.model_name or "unknown",
-            prompt=self._last_prompt or "",
+            prompt=prompt_str,
             interventions=interventions,
             evaluation=self._last_evaluation or {},
             baseline_top_tokens=self._last_baseline.top_tokens if self._last_baseline else [],

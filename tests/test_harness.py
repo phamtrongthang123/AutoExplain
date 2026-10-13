@@ -141,3 +141,75 @@ def test_record_saves_valid_experiment(harness):
         assert data["evaluation"]["max_logit_diff"] > 0.0
         assert len(data["baseline_top_tokens"]) > 0
         assert len(data["modified_top_tokens"]) > 0
+
+
+def test_p0_cache_invalidation_on_reset_and_intervene(harness):
+    """Proves reset() and intervene() invalidate activation cache so observe() is never stale."""
+    prompt = "Alice gave Bob a book."
+
+    # Baseline observation: head 3 has nonzero norm
+    obs_base = harness.observe(layer=5, prompt=prompt)
+    assert obs_base["head_norms"][3] > 0.0
+
+    # Intervene: zero head 3
+    harness.intervene(layer=5, head=3, method="zero")
+    assert harness._last_cache is None, "intervene() must invalidate cache"
+
+    # Observe under intervention: head 3 norm must be 0.0
+    obs_ablated = harness.observe(layer=5, prompt=prompt)
+    assert pytest.approx(obs_ablated["head_norms"][3], abs=1e-5) == 0.0
+
+    # Reset: must invalidate cache so next observe recaptures clean baseline
+    harness.reset()
+    assert harness._last_cache is None, "reset() must invalidate cache"
+
+    obs_restored = harness.observe(layer=5, prompt=prompt)
+    assert obs_restored["head_norms"][3] > 0.0, "observe() after reset must not return stale ablated cache"
+    assert pytest.approx(obs_restored["head_norms"][3], rel=1e-4) == obs_base["head_norms"][3]
+
+
+def test_p1_interventions_tied_to_specific_evaluated_run(harness):
+    """Proves record() uses interventions tied to the evaluated run, preventing cross-experiment leakage."""
+    prompt = "Alice gave Bob a book."
+    baseline = harness.run(prompt)
+
+    # Experiment 1: ablate layer 5 head 3
+    harness.intervene(layer=5, head=3, method="zero")
+    modified_1 = harness.run(prompt)
+    assert len(modified_1.interventions) == 1
+    assert modified_1.interventions[0]["layer"] == 5
+
+    harness.evaluate(baseline, modified_1)
+    harness.reset()
+
+    # Experiment 2 is configured subsequently
+    harness.intervene(layer=8, head=1, method="zero")
+    modified_2 = harness.run(prompt)
+    assert modified_2.interventions[0]["layer"] == 8
+
+    # Recording experiment 1 must record layer 5 head 3, NOT experiment 2's layer 8 head 1
+    with tempfile.TemporaryDirectory() as tmpdir:
+        out_file = Path(tmpdir) / "exp1.json"
+        harness.record("exp1", path=out_file)
+
+        data = json.loads(out_file.read_text(encoding="utf-8"))
+        assert len(data["interventions"]) == 1
+        assert data["interventions"][0]["layer"] == 5, (
+            f"Expected layer 5 from evaluated run, but got {data['interventions'][0]['layer']}"
+        )
+
+
+def test_p2_run_does_not_allocate_all_layers_cache(harness):
+    """Proves run() does not populate full-model activation cache, and observe() targets only the requested layer."""
+    prompt = "Alice gave Bob a book."
+    harness.reset()
+
+    # Standard run should not store entire-model activation cache
+    harness.run(prompt)
+    assert harness._last_cache is None, "run() must not cache all layer activations"
+
+    # observe() on layer 5 should only capture layer 5 activations
+    obs = harness.observe(layer=5, prompt=prompt)
+    assert harness._last_cache is not None
+    assert all("blocks.5." in k for k in harness._last_cache.keys()), "observe() must only capture requested layer"
+

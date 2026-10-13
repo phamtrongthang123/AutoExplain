@@ -47,8 +47,9 @@ class RunOutput:
     text: str
     logits: Any  # torch.Tensor containing final position logits
     top_tokens: List[Dict[str, Any]] = field(default_factory=list)
+    interventions: List[Dict[str, Any]] = field(default_factory=list)
     loss: Optional[float] = None
 
     def __repr__(self) -> str:
         top_str = ", ".join(f"{t['token']}: {t['probability']:.3f}" for t in self.top_tokens[:3])
-        return f"<RunOutput prompt={self.prompt!r} top=[{top_str}]>"
+        return f"<RunOutput prompt={self.prompt!r} top=[{top_str}] interventions={len(self.interventions)}>"
