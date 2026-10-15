@@ -43,23 +43,34 @@ Whenever this command is given:
 
 ---
 
-## 📋 The 4 Core Use Cases
+## 📋 The 5 Core Use Cases
 
-| # | Use Case | Scenario Actions | Target Element & Behavior |
-| :---: | :--- | :--- | :--- |
-| **1** | **Zero-Setup Arrival** | Cursor enters, scrolls prompt row, hovers over word pills. | Displays prompt `"The capital of France is"` with token activation tints under Unsloth Light Theme. |
-| **2** | **The Interpreter** | Clicks `"France"` $\to$ reads Card 1 $\to$ clicks `"is"`. | Card 1 displays plain-English firing concepts without raw neuron coordinates or histograms. |
-| **3** | **The Steerer** | Clicks `⚡ Steer This Concept` $\to$ clicks `📌 Tokyo Steer` $\to$ clicks `[ Apply Steer ]`. | Card 2 displays side-by-side Default vs. Steered output with highlighted token differences. |
-| **4** | **Cross-Model Switch** | Clicks `🚫 Suppress Paris` $\to$ clicks `Save Steer` $\to$ clicks `gpt2-finetuned.pt`. | Preserves saved steer presets across model checkpoints in the top header without reloading. |
+| # | Use Case | Scenario Actions | Target Element & Behavior | Deliverable Video |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Zero-Setup Arrival** | Cursor enters, glides across header badges and hovers over all word pills. | Displays prompt `"The capital of France is"` with token activation tints under Unsloth Light Theme. | [`usecase_1_zero_setup_arrival.mp4`](file:///home/ptthang/ExplainPls/recipes/demos/usecase_1_zero_setup_arrival.mp4) |
+| **2** | **Word-by-Word Interpreter** | Clicks through **all 5 tokens**: `"The"`, `"capital"`, `"of"`, `"France"`, `"is"`. | Card 1 dynamically displays plain-English firing concepts and tags for every word without histograms. | [`usecase_2_word_by_word_interpreter.mp4`](file:///home/ptthang/ExplainPls/recipes/demos/usecase_2_word_by_word_interpreter.mp4) |
+| **3** | **Causal Steering (Tokyo)** | Clicks `⚡ Steer This Concept` $\to$ clicks `📌 Tokyo Steer` $\to$ clicks `[ Apply Steer ]`. | Card 2 displays side-by-side Default vs. Steered output with highlighted entity replacement diff. | [`usecase_3_causal_steering_tokyo.mp4`](file:///home/ptthang/ExplainPls/recipes/demos/usecase_3_causal_steering_tokyo.mp4) |
+| **4** | **Suppression & Reset** | Clicks `🚫 Suppress Paris` $\to$ clicks `[ Apply Steer ]` $\to$ clicks `[ Reset Baseline ]`. | Card 2 suppresses exact city node, falls back to generic culture, then restores baseline on reset. | [`usecase_4_suppress_thought_and_reset.mp4`](file:///home/ptthang/ExplainPls/recipes/demos/usecase_4_suppress_thought_and_reset.mp4) |
+| **5** | **Cross-Model Switch & Upload** | Clicks `[ Save Steer ]` $\to$ clicks `gpt2-finetuned.pt` $\to$ clicks `[ + Upload .pt ]`. | Preserves saved steer presets across model checkpoints in the top header and registers new weights. | [`usecase_5_cross_model_switch.mp4`](file:///home/ptthang/ExplainPls/recipes/demos/usecase_5_cross_model_switch.mp4) |
 
 ---
 
 ## 🚀 Usage
 
-### 1. Run Complete Default Walkthrough
+### 1. Record All 5 Use Cases Sequentially
 ```bash
-python recipes/video_demo/record_demo.py --name AutoExplain_Interactive_Screen_Demo
-# Output saved to: recipes/demos/AutoExplain_Interactive_Screen_Demo.mp4 (gitignored)
+python recipes/video_demo/record_demo.py --usecase all
+# Automatically saves all 5 MP4 videos directly to recipes/demos/ (gitignored)
+```
+
+### 2. Record an Individual Use Case
+```bash
+python recipes/video_demo/record_demo.py --usecase 2   # Word-by-Word Interpreter
+```
+
+### 3. Record Full Continuous Walkthrough
+```bash
+python recipes/video_demo/record_demo.py --usecase full --name AutoExplain_Interactive_Screen_Demo
 ```
 
 ### 2. Run for a Specific Use Case
