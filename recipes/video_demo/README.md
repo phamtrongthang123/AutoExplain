@@ -14,10 +14,8 @@ Whenever this command is given:
 3. Inject the official **Cua Presence Cursor** (`cua.presence_cursor_art_svg`) into the DOM overlay with easing trajectory physics and expanding click ripples.
 4. Execute the targeted scenario step-by-step with realistic human/agent pacing (smooth movements, hover states, input typing, and click actions).
 5. Transcode the raw Chromium video stream into:
-   - **`*.mp4`** (H.264 standard video for universal playback)
-   - **`*.webm`** (Web-optimized high-bitrate video)
-   - **`*.gif`** (Optimized animated GIF for instant markdown and GitHub preview)
-6. Present the outputs with clickable links and embedded GIF preview.
+   - **`*.mp4`** only (H.264 standard video with YUV420P encoding for universal playback).
+6. Present the MP4 output file with clickable links.
 
 ---
 
@@ -40,9 +38,7 @@ Whenever this command is given:
                                │
                                ▼
                         FFmpeg Pipeline
-   • Libx264 H.264 MP4 (CRF 22, YUV420P)
-   • High-efficiency WebM
-   • Lanczos palette-optimized 10fps GIF
+   • Libx264 H.264 MP4 (CRF 22, YUV420P) — Single cleanly exported MP4
 ```
 
 ---

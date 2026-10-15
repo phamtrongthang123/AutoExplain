@@ -165,11 +165,9 @@ def wait_for_server(url: str, timeout: float = 15.0) -> bool:
     return False
 
 
-def transcode_video(raw_webm: Path, output_base: Path, generate_gif: bool = True) -> dict[str, Path]:
-    """Transcodes raw Playwright WebM into MP4, WebM, and animated GIF."""
+def transcode_to_mp4(raw_webm: Path, output_base: Path) -> Path:
+    """Transcodes raw Playwright WebM into high-quality MP4 and cleans up raw files."""
     mp4_path = output_base.with_suffix(".mp4")
-    webm_path = output_base.with_suffix(".webm")
-    gif_path = output_base.with_suffix(".gif")
 
     print(f"Transcoding {raw_webm.name} -> {mp4_path.name}...")
     subprocess.run(
@@ -183,34 +181,15 @@ def transcode_video(raw_webm: Path, output_base: Path, generate_gif: bool = True
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
-
-    shutil.copyfile(raw_webm, webm_path)
-    results = {"mp4": mp4_path, "webm": webm_path}
-
-    if generate_gif:
-        print(f"Generating optimized GIF: {gif_path.name}...")
-        subprocess.run(
-            [
-                "ffmpeg", "-y", "-i", str(mp4_path),
-                "-vf", "fps=10,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
-                str(gif_path),
-            ],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-        results["gif"] = gif_path
-
-    return results
+    return mp4_path
 
 
 def run_recording_pipeline(
     scenario_fn: Callable[[Page, CuaCursorRecorder], None],
     output_filename: str = "AutoExplain_Interactive_Screen_Demo",
     output_dir: Optional[Path] = None,
-    generate_gif: bool = True,
-) -> dict[str, Path]:
-    """End-to-end pipeline executing a scenario and producing video assets."""
+) -> Path:
+    """End-to-end pipeline executing a scenario and producing MP4 video."""
     target_dir = Path(output_dir or DEFAULT_OUTPUT_DIR)
     target_dir.mkdir(parents=True, exist_ok=True)
     temp_video_dir = target_dir / ".temp_video_recordings"
@@ -262,11 +241,11 @@ def run_recording_pipeline(
         raw_video = recorded[0]
 
         output_base = target_dir / output_filename
-        artifacts = transcode_video(raw_video, output_base, generate_gif=generate_gif)
+        mp4_path = transcode_to_mp4(raw_video, output_base)
 
         # Cleanup temp directory
         shutil.rmtree(temp_video_dir, ignore_errors=True)
-        return artifacts
+        return mp4_path
 
     finally:
         server_proc.terminate()
@@ -305,16 +284,12 @@ def default_full_walkthrough_scenario(page: Page, cua_rec: CuaCursorRecorder) ->
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Record interactive screen demo with Cua mouse cursor.")
+    parser = argparse.ArgumentParser(description="Record interactive screen demo with Cua mouse cursor (MP4 only).")
     parser.add_argument("--name", default="AutoExplain_Interactive_Screen_Demo", help="Output filename base.")
-    parser.add_argument("--no-gif", action="store_true", help="Skip animated GIF generation.")
     args = parser.parse_args()
 
-    results = run_recording_pipeline(
+    mp4_file = run_recording_pipeline(
         scenario_fn=default_full_walkthrough_scenario,
         output_filename=args.name,
-        generate_gif=not args.no_gif,
     )
-    print("\nRecorded files:")
-    for k, v in results.items():
-        print(f"  [{k.upper()}] {v} ({v.stat().st_size / (1024*1024):.2f} MB)")
+    print(f"\n[MP4] {mp4_file} ({mp4_file.stat().st_size / (1024*1024):.2f} MB)")
