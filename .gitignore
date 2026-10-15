@@ -86,3 +86,4 @@ experiments/
 *.html
 !docs/*.html
 !examples/*.html
+!autoexplain/web/static/*.html

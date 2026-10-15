@@ -67,5 +67,16 @@ def investigate(model: str, question: str, tools: str, max_experiments: int, out
     console.print(f"[bold green]Investigation complete.[/bold green] Report saved to [underline]{saved_path}[/underline]")
 
 
+@main.command(name="ui")
+@click.option("--host", default="127.0.0.1", help="Host address to bind.")
+@click.option("--port", default=8000, type=int, help="Port to listen on.")
+def ui(host: str, port: int):
+    """Launch the AutoExplain Studio 2-card web interface."""
+    import uvicorn
+    from autoexplain.web.app import app
+    console.print(f"[bold green]Starting AutoExplain Studio on http://{host}:{port}...[/bold green]")
+    uvicorn.run(app, host=host, port=port)
+
+
 if __name__ == "__main__":
     main()
