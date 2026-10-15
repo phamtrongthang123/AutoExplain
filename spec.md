@@ -15,7 +15,10 @@ Start by creating `autoexplain/web/fixtures/neuronpedia_mock.json` with the extr
    - *"As a user testing how the model works, I want to suppress an active thought or type a new thought in plain English (e.g., `'Japan and Tokyo'`) and see the Default vs. Steered output side by side."*
 
 4. **The Cross-Model Experimenter (Save Steer & Switch `.pt` Model):**
-   - *"As a user with multiple checkpoints, I want to save a working steering vector inside the Steer card, switch to another `.pt` model (via a header switcher / `.pt` upload placeholder), and apply that saved steering vector to see its effect on the new model."*
+   - *"As a user with multiple checkpoints, I want to save a working steering vector inside the Steer card, switch to another `.pt` model (via a header switcher / `.pt` upload placeholder), and apply that saved steering vector to see its effect on the new model. Because the user may want to know "Do the same interpretability patterns hold consistently across architectures, model sizes, and training conditions?"."*
+
+5. **The Investigator (Testing Interpretations):**
+   - *"As a user investigating a model's internal mechanisms, I want to inspect the original neurons and circuits, form hypotheses about their functions, and test those hypotheses through interventions, so I can distinguish plausible interpretations from causally supported explanations."*
 
 ---
 
