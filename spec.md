@@ -20,6 +20,27 @@ Start by creating `autoexplain/web/fixtures/neuronpedia_mock.json` with the extr
 5. **The Investigator (Testing Interpretations):**
    - *"As a user investigating a model's internal mechanisms, I want to inspect the original neurons and circuits, form hypotheses about their functions, and test those hypotheses through interventions, so I can distinguish plausible interpretations from causally supported explanations."*
 
+### 6. The Librarian (Navigating Internal Knowledge). This usecase is long because I like it the most.
+
+- *"As a researcher exploring an unfamiliar neural network, I want to ask natural-language questions about where information is represented, how internal features are related, and how the network organizes its representations, so I can navigate and understand the model without already knowing which neurons, layers, or circuits to inspect."*
+
+**Example questions:**
+- "Where does the model represent information about cats?"
+- "Why do these neurons respond to both cats and cars?"
+- "How are related concepts organized across layers?"
+- "Which other features are connected to this representation?"
+
+**Expected behavior:**
+- Find relevant neurons, features, and circuits.
+- Discover shared patterns and relationships between representations.
+- Explain findings in plain language, with supporting evidence.
+- Distinguish observed correlations from causally validated explanations.
+- Acknowledge uncertainty when the internal organization is not yet understood.
+
+**Design principle:** AutoExplain should help users discover how a network is already organized, rather than assuming its representations must first be disentangled or reorganized.
+
+**Reference:** [Neural Networks Are Already Clean — Goodfire](https://already-clean.goodfire.com/)
+
 ---
 
 ### 1. User Goals (What the user wants to accomplish)
