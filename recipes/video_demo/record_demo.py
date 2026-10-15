@@ -28,7 +28,7 @@ from playwright.sync_api import BrowserContext, Page, sync_playwright
 logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_OUTPUT_DIR = REPO_ROOT
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "recipes" / "demos"
 
 
 class CuaCursorRecorder:

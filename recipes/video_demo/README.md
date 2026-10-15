@@ -59,6 +59,7 @@ Whenever this command is given:
 ### 1. Run Complete Default Walkthrough
 ```bash
 python recipes/video_demo/record_demo.py --name AutoExplain_Interactive_Screen_Demo
+# Output saved to: recipes/demos/AutoExplain_Interactive_Screen_Demo.mp4 (gitignored)
 ```
 
 ### 2. Run for a Specific Use Case
@@ -74,10 +75,10 @@ def usecase_interpret_scenario(page: Page, cua: CuaCursorRecorder):
     # Step 2: Transfer concept to Card 2
     cua.click(".btn-quick-steer", desc="Steer Concept Button", delay_after=2.0)
 
-run_recording_pipeline(
+# Output saved to recipes/demos/usecase_2_interpreter_demo.mp4
+mp4_path = run_recording_pipeline(
     scenario_fn=usecase_interpret_scenario,
     output_filename="usecase_2_interpreter_demo",
-    generate_gif=True
 )
 ```
 

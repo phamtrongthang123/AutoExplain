@@ -87,3 +87,6 @@ experiments/
 !docs/*.html
 !examples/*.html
 !autoexplain/web/static/*.html
+
+# Video demo recordings
+recipes/demos/
