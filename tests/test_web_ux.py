@@ -194,7 +194,9 @@ def test_neuronpedia_live_integration(client):
     """Test live Neuronpedia integration when API key is configured."""
     from autoexplain.web.neuronpedia import is_live_configured, fetch_token_activations
 
-    assert is_live_configured() is True
+    if not is_live_configured():
+        pytest.skip("NEURONPEDIA_API_KEY not configured in environment (expected in headless CI).")
+
     # Test novel prompt interpretation through live API
     res = client.post(
         "/api/interpret",

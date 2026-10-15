@@ -23,6 +23,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Run Harness Acceptance Tests
+      - name: Run Acceptance & Unit Tests
         run: |
-          pytest -v tests/test_harness.py
+          pytest -v

@@ -7,7 +7,13 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import torch
 import torch.nn.functional as F
-from transformer_lens import HookedTransformer
+try:
+    from transformer_lens import HookedTransformer
+except ImportError as err:
+    raise ImportError(
+        "AutoExplain requires transformer_lens < 4.0.0. "
+        "Please run: pip install 'transformer_lens>=3.9.0,<4.0.0'"
+    ) from err
 
 from autoexplain.experiment import ExperimentRecord, RunOutput
 
