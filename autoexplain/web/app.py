@@ -13,6 +13,12 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from autoexplain.web.neuronpedia import (
+    cloud_steer,
+    fetch_token_activations,
+    is_live_configured,
+)
+
 BASE_DIR = Path(__file__).resolve().parent
 FIXTURE_PATH = BASE_DIR / "fixtures" / "neuronpedia_mock.json"
 STATIC_DIR = BASE_DIR / "static"
@@ -82,6 +88,20 @@ def create_app() -> FastAPI:
         data = state["prompts_data"].get(prompt_text)
         if data:
             return data
+
+        # Check live Neuronpedia if configured
+        if is_live_configured() and state.get("active_model", "").startswith("gpt2"):
+            live_tokens = fetch_token_activations(prompt_text)
+            if live_tokens:
+                data = {
+                    "text": prompt_text,
+                    "default_output": f"{prompt_text} ...",
+                    "tokens": live_tokens,
+                    "steer_scenarios": {},
+                }
+                state["prompts_data"][prompt_text] = data
+                return data
+
         # Synthesize fallback tokenization for novel prompts
         words = prompt_text.strip().split()
         tokens = [
@@ -137,6 +157,7 @@ def create_app() -> FastAPI:
             "steered_output": steered_output,
             "active_steer": state["active_steer"],
             "presets": state["presets"],
+            "neuronpedia_live": is_live_configured(),
         }
 
     @app.get("/api/models")
@@ -225,6 +246,20 @@ def create_app() -> FastAPI:
             steered_out = scenario["steered_output"]
             diff = scenario["difference_summary"]
             thought = scenario["active_thought"]
+        elif is_live_configured() and state.get("active_model", "").startswith("gpt2"):
+            live_steer = cloud_steer(prompt_text, intensity=req.intensity, mode=req.mode)
+            if live_steer:
+                steered_out = live_steer["steered_output"]
+                diff = f"Live cloud SAE steering ({req.mode} {req.intensity:.2f}x). Quota remaining: {live_steer.get('remaining_quota')}."
+                thought = f"Live SAE intervention: {req.concept}"
+            elif req.mode == "suppress":
+                steered_out = f"{prompt_text} a distinct entity with {req.concept.lower()} traits removed."
+                diff = f"Suppressed internal firing for '{req.concept}' with intensity {req.intensity:.2f}."
+                thought = f"Suppressed: {req.concept}"
+            else:
+                steered_out = f"{prompt_text} {req.concept.split('/')[0].strip()}."
+                diff = f"Shifted output toward '{req.concept}' representation with intensity {req.intensity:.2f}."
+                thought = f"Injected: {req.concept}"
         elif req.mode == "suppress":
             steered_out = f"{prompt_text} a distinct entity with {req.concept.lower()} traits removed."
             diff = f"Suppressed internal firing for '{req.concept}' with intensity {req.intensity:.2f}."

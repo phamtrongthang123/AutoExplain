@@ -188,3 +188,22 @@ def test_story_4_cross_model_save_steer_and_switch(client):
     assert res.status_code == 200
     remaining_ids = [p["id"] for p in res.json()["presets"]]
     assert created_id not in remaining_ids
+
+
+def test_neuronpedia_live_integration(client):
+    """Test live Neuronpedia integration when API key is configured."""
+    from autoexplain.web.neuronpedia import is_live_configured, fetch_token_activations
+
+    assert is_live_configured() is True
+    # Test novel prompt interpretation through live API
+    res = client.post(
+        "/api/interpret",
+        json={"prompt": "The Eiffel Tower is in", "token_index": 1},
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert "concept" in data
+    assert len(data["concept"]) > 0
+    # Status shows live flag
+    status = client.get("/api/status").json()
+    assert status.get("neuronpedia_live") is True
