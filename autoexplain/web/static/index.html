@@ -661,6 +661,201 @@
       color: var(--danger);
     }
 
+    /* Streaming Discovery Ribbon (Anytime Mode) */
+    .discovery-ribbon {
+      background: #FFFFFF;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.15rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      transition: all 0.2s ease;
+    }
+
+    .discovery-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .stream-brand-col {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .stream-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-dark);
+      background: var(--accent-tint);
+      border: 1px solid var(--accent-tint-border);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulseAnim 1.8s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .stream-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--bg);
+      padding: 0.2rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--card-border);
+    }
+
+    .step-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .step-pill:hover {
+      color: var(--text);
+      background: #FFFFFF;
+    }
+
+    .step-pill.active {
+      background: #FFFFFF;
+      color: var(--accent-dark);
+      border-color: var(--accent-tint-border);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .preflight-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .preflight-pill {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--card-border);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-full);
+    }
+
+    .discovery-content-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      padding-top: 0.45rem;
+      border-top: 1px dashed var(--card-border);
+    }
+
+    .stream-status-box {
+      font-size: 0.8rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stream-status-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .stream-status-desc {
+      color: var(--text-subtle);
+      font-size: 0.76rem;
+    }
+
+    .stream-suggestions-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .stream-concept-btn {
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.28rem 0.65rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--accent-tint-border);
+      background: var(--accent-tint);
+      color: var(--accent-dark);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .stream-concept-btn:hover {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .stream-steer-btn {
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.28rem 0.65rem;
+      border-radius: var(--radius-full);
+      border: 1px solid #C7D2FE;
+      background: #EEF2FF;
+      color: #4338CA;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .stream-steer-btn:hover {
+      background: #4F46E5;
+      color: #FFFFFF;
+    }
+
+    .auto-ticker {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      background: var(--accent-tint);
+      border: 1px solid var(--accent-tint-border);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      margin-left: 0.25rem;
+    }
+
     /* Toast Notification */
     .toast {
       position: fixed;
@@ -706,6 +901,40 @@
         <input type="file" id="checkpointFileInput" accept=".pt,.pth" style="display: none;" onchange="handleCheckpointUpload(event)">
       </div>
     </header>
+
+    <!-- Streaming Discovery Ribbon (Anytime Mode) -->
+    <div class="discovery-ribbon" id="discoveryRibbon">
+      <div class="discovery-top-row">
+        <div class="stream-brand-col">
+          <span class="stream-live-pill"><span class="pulse-dot"></span> Anytime Discovery</span>
+          <div class="stream-stepper" id="streamStepper">
+            <button class="step-pill" id="stepBtn0" onclick="setDiscoveryStep(0)">0s Profiling</button>
+            <button class="step-pill" id="stepBtn5" onclick="setDiscoveryStep(5)">5s Candidates</button>
+            <button class="step-pill" id="stepBtn10" onclick="setDiscoveryStep(10)">10s Evidence</button>
+            <button class="step-pill active" id="stepBtn15" onclick="setDiscoveryStep(15)">15s Verified</button>
+            <span class="auto-ticker" id="streamCountdownBadge">● Ready</span>
+          </div>
+        </div>
+
+        <div class="preflight-badges" id="preflightBadges">
+          <span class="preflight-pill" id="preflightRuntime">⏱️ Fast &lt;5s · Deep ~15s</span>
+          <span class="preflight-pill" id="preflightVram">💾 VRAM: 480MB Safe</span>
+          <span class="preflight-pill" id="preflightYield">🎯 Steerability: 88%</span>
+          <span class="preflight-pill" id="preflightRule">📚 Rule: SAE Layer 8</span>
+        </div>
+      </div>
+
+      <div class="discovery-content-row">
+        <div class="stream-status-box">
+          <span class="stream-status-title" id="streamStatusTitle">15s — Verified Causal Interventions</span>
+          <span class="stream-status-desc" id="streamStatusDesc">2 steering interventions verified with clean separability.</span>
+        </div>
+
+        <div class="stream-suggestions-group" id="streamSuggestionsGroup">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
 
     <!-- Prompt Bar & Word Pills -->
     <section class="prompt-section">
@@ -867,6 +1096,172 @@
       }, 2600);
     }
 
+    // Streaming Discovery State & Timers
+    let discoveryTimeouts = [];
+    let discoveryCountdownInterval = null;
+
+    function renderDiscoveryRibbon(discoveryData) {
+      if (!discoveryData) return;
+      appState.discovery = discoveryData;
+
+      // 1. Preflight badges
+      const preflight = discoveryData.preflight || {};
+      const arch = discoveryData.architecture_profile || {};
+      document.getElementById("preflightRuntime").textContent = `⏱️ Fast: ${preflight.estimated_runtime_fast || "<5s"} · Deep: ${preflight.estimated_runtime_deep || "~15s"}`;
+      document.getElementById("preflightVram").textContent = `💾 VRAM: ${preflight.vram_footprint || "480MB Safe"}`;
+      document.getElementById("preflightYield").textContent = `🎯 Steerability: ${preflight.steerability_score ? preflight.steerability_score.split(" ")[0] : "88%"}`;
+      document.getElementById("preflightRule").textContent = `📚 ${arch.matched_heuristic ? "Rule: Layer 8 SAE" : "Rule: Matched"}`;
+      document.getElementById("preflightRule").title = arch.matched_heuristic || "";
+
+      // 2. Active stage details
+      const stage = discoveryData.stage || {};
+      const elapsed = discoveryData.elapsed !== undefined ? discoveryData.elapsed : 15;
+      document.getElementById("streamStatusTitle").textContent = stage.stage_label || `${elapsed}s — Exploration Stage`;
+      document.getElementById("streamStatusDesc").textContent = stage.status_text || "Discovering internal concepts...";
+
+      // 3. Highlight active stepper pill
+      [0, 5, 10, 15].forEach(s => {
+        const btn = document.getElementById(`stepBtn${s}`);
+        if (btn) {
+          if (s === elapsed) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        }
+      });
+
+      // 4. Render candidate concept pills & verified steer pills
+      const suggestionsGroup = document.getElementById("streamSuggestionsGroup");
+      suggestionsGroup.innerHTML = "";
+
+      const candidates = stage.candidates || [];
+      const verifiedSteers = stage.verified_steers || [];
+
+      if (elapsed === 0) {
+        const hint = document.createElement("span");
+        hint.style.fontSize = "0.75rem";
+        hint.style.color = "var(--text-subtle)";
+        hint.textContent = "⚡ Profiling architecture... first candidate concepts stream in 5s (non-blocking)";
+        suggestionsGroup.appendChild(hint);
+      } else {
+        // Render candidates
+        candidates.forEach(cand => {
+          const btn = document.createElement("button");
+          btn.className = "stream-concept-btn";
+          btn.innerHTML = `<span style="font-weight:700; opacity:0.8;">⚡ ${cand.badge || "Candidate"}:</span> "${cand.concept.length > 38 ? cand.concept.slice(0, 38) + "..." : cand.concept}"`;
+          btn.title = `Source: ${cand.source} (Confidence: ${Math.round((cand.confidence || 0.8) * 100)}%). Click to inspect in Card 1.`;
+          btn.onclick = () => {
+            // Find token in active prompt if matches
+            const matchTok = appState.tokens.find(t => t.text.toLowerCase() === (cand.token || "").toLowerCase());
+            if (matchTok) {
+              selectToken(matchTok.index);
+            } else {
+              renderInterpretCard({
+                text: cand.token || "concept",
+                token: cand.token || "concept",
+                index: 0,
+                concept: cand.concept,
+                tags: cand.tags || ["Discovered Concept"],
+                activation_score: cand.confidence || 0.85
+              });
+            }
+            showToast(`Loaded candidate concept: ${cand.concept.slice(0, 30)}...`);
+          };
+          suggestionsGroup.appendChild(btn);
+        });
+
+        // Render verified steers
+        verifiedSteers.forEach(steer => {
+          const btn = document.createElement("button");
+          btn.className = "stream-steer-btn";
+          btn.innerHTML = `<span>${steer.name}</span> <span style="font-size:0.65rem; background:rgba(255,255,255,0.3); padding:1px 5px; border-radius:999px;">Verified</span>`;
+          btn.title = `Causal validation: ${steer.causal_effect}. Click to apply in Card 2.`;
+          btn.onclick = () => {
+            document.getElementById("steerConceptInput").value = steer.concept;
+            setSteerMode(steer.mode || "boost");
+            const slider = document.getElementById("intensitySlider");
+            slider.value = Math.abs(steer.intensity || 1.0);
+            updateSliderDisplay(slider.value);
+            executeSteer();
+            showToast(`Applied verified steer: ${steer.name}`);
+          };
+          suggestionsGroup.appendChild(btn);
+        });
+      }
+    }
+
+    // Set discovery step (via manual click or auto-streaming)
+    async function setDiscoveryStep(elapsed, isUserClick = true) {
+      if (isUserClick) {
+        // Clear any auto-progression timers
+        clearDiscoveryTimers();
+        const badge = document.getElementById("streamCountdownBadge");
+        if (badge) badge.textContent = `● Step ${elapsed}s`;
+      }
+      try {
+        const res = await fetch("/api/discovery/step", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ elapsed: elapsed })
+        });
+        if (!res.ok) throw new Error("Failed to set discovery step");
+        const data = await res.json();
+        renderDiscoveryRibbon(data);
+      } catch (err) {
+        console.error("Discovery step error:", err);
+      }
+    }
+
+    function clearDiscoveryTimers() {
+      discoveryTimeouts.forEach(t => clearTimeout(t));
+      discoveryTimeouts = [];
+      if (discoveryCountdownInterval) {
+        clearInterval(discoveryCountdownInterval);
+        discoveryCountdownInterval = null;
+      }
+    }
+
+    // Start Anytime Streaming Discovery upon model upload or switch
+    function startDiscoveryStreaming() {
+      clearDiscoveryTimers();
+      setDiscoveryStep(0, false);
+
+      let remainingSec = 5;
+      const badge = document.getElementById("streamCountdownBadge");
+      if (badge) badge.textContent = `⏱️ Next: 5s`;
+
+      discoveryCountdownInterval = setInterval(() => {
+        remainingSec -= 1;
+        if (remainingSec > 0) {
+          if (badge) badge.textContent = `⏱️ Next: ${remainingSec}s`;
+        }
+      }, 1000);
+
+      // 5s: First suggestions
+      discoveryTimeouts.push(setTimeout(() => {
+        setDiscoveryStep(5, false);
+        remainingSec = 5;
+        showToast("5s: First candidate concepts streamed in");
+      }, 5000));
+
+      // 10s: Better suggestions & evidence
+      discoveryTimeouts.push(setTimeout(() => {
+        setDiscoveryStep(10, false);
+        remainingSec = 5;
+        showToast("10s: Refined rankings & attribution evidence updated");
+      }, 10000));
+
+      // 15s: Verified steering results
+      discoveryTimeouts.push(setTimeout(() => {
+        setDiscoveryStep(15, false);
+        clearInterval(discoveryCountdownInterval);
+        discoveryCountdownInterval = null;
+        if (badge) badge.textContent = `● Verified (5s Cadence)`;
+        showToast("15s: Causally verified steering interventions ready");
+      }, 15000));
+    }
+
     // Initialize UI on page load
     async function init() {
       await fetchStatus();
@@ -892,6 +1287,9 @@
         renderInterpretCard(data.selected_token);
         renderSteerOutputs(data.default_output, data.steered_output, data.active_steer);
         renderPresets();
+        if (data.discovery) {
+          renderDiscoveryRibbon(data.discovery);
+        }
       } catch (err) {
         console.error("Initialization error:", err);
       }
@@ -921,9 +1319,13 @@
           body: JSON.stringify({ model: modelId })
         });
         if (!res.ok) throw new Error("Failed to select model");
+        const data = await res.json();
         appState.activeModel = modelId;
         renderModelPills();
         showToast(`Switched active model to ${modelId}`);
+
+        // Start streaming exploration for newly chosen model
+        startDiscoveryStreaming();
 
         // Re-execute active steer if set, verifying cross-model reuse
         if (appState.activeSteer) {
@@ -951,6 +1353,11 @@
         if (!res.ok) throw new Error("Upload failed");
         const data = await res.json();
         showToast(data.message || `Loaded checkpoint ${file.name}`);
+        appState.activeModel = data.active_model;
+        renderModelPills();
+        
+        // Immediately trigger streaming discovery sequence!
+        startDiscoveryStreaming();
         await fetchStatus();
       } catch (err) {
         console.error(err);

@@ -209,3 +209,69 @@ def test_neuronpedia_live_integration(client):
     # Status shows live flag
     status = client.get("/api/status").json()
     assert status.get("neuronpedia_live") is True
+
+
+def test_story_1_streaming_discovery_anytime_timeline(client):
+    """User Story 1: The Streaming Explorer (Anytime Streaming Discovery).
+
+    Verifies 0s -> 5s -> 10s -> 15s anytime search progression, pre-flight
+    estimates, candidate concept streaming, and progressive verification.
+    """
+    # 1. 0s Stage: Profiling & Pre-Flight Estimator
+    res = client.post("/api/discovery/step", json={"elapsed": 0})
+    assert res.status_code == 200
+    d0 = res.json()
+    assert d0["elapsed"] == 0
+    assert "0s" in d0["stage"]["stage_label"]
+    assert len(d0["stage"]["candidates"]) == 0
+    assert d0["preflight"]["estimated_runtime_fast"] == "< 5s"
+    assert "480 MB" in d0["preflight"]["vram_footprint"]
+    assert "0.88" in d0["preflight"]["steerability_score"]
+    assert "SAE Layer 8" in d0["architecture_profile"]["matched_heuristic"]
+
+    # 2. 5s Stage: First Candidates (Heuristic Path)
+    res = client.post("/api/discovery/step", json={"elapsed": 5})
+    assert res.status_code == 200
+    d5 = res.json()
+    assert d5["elapsed"] == 5
+    assert "5s" in d5["stage"]["stage_label"]
+    cands_5s = d5["stage"]["candidates"]
+    assert len(cands_5s) >= 3
+    assert any("Candidate (Unverified)" in c["badge"] for c in cands_5s)
+    assert any("Paris" in c["concept"] for c in cands_5s)
+
+    # 3. 10s Stage: Continuous Ranking & Added Evidence
+    res = client.post("/api/discovery/step", json={"elapsed": 10})
+    assert res.status_code == 200
+    d10 = res.json()
+    assert d10["elapsed"] == 10
+    cands_10s = d10["stage"]["candidates"]
+    assert len(cands_10s) >= 4
+    # Paris concept has higher refined confidence
+    paris_cand = next(c for c in cands_10s if "Paris" in c["concept"])
+    assert paris_cand["confidence"] >= 0.95
+
+    # 4. 15s Stage: Causally Verified Interventions
+    res = client.post("/api/discovery/step", json={"elapsed": 15})
+    assert res.status_code == 200
+    d15 = res.json()
+    assert d15["elapsed"] == 15
+    assert "15s" in d15["stage"]["stage_label"]
+    steers_15s = d15["stage"]["verified_steers"]
+    assert len(steers_15s) >= 2
+    tokyo_steer = next(s for s in steers_15s if "Tokyo" in s["name"])
+    assert tokyo_steer["mode"] == "boost"
+    assert "replacement" in tokyo_steer["causal_effect"]
+
+    # 5. Model upload starts discovery sequence at 0s with pre-flight estimates
+    fake_pt = b"dummy_model_bytes_torch"
+    up_res = client.post(
+        "/api/models/upload",
+        files={"file": ("llama_layer_test.pt", BytesIO(fake_pt), "application/octet-stream")},
+    )
+    assert up_res.status_code == 200
+    up_data = up_res.json()
+    assert up_data["active_model"] == "llama_layer_test.pt"
+    assert "discovery" in up_data
+    assert up_data["discovery"]["elapsed"] == 0
+    assert "preflight" in up_data["discovery"]

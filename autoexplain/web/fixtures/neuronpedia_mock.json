@@ -169,5 +169,163 @@
       "intensity": -0.9,
       "mode": "suppress"
     }
-  ]
+  ],
+  "discovery": {
+    "default": {
+      "architecture_profile": {
+        "family": "GPT-2 (Transformer Decoder)",
+        "params": "124M",
+        "layers": 12,
+        "d_model": 768,
+        "heads": 12,
+        "matched_heuristic": "Literature Rule: Residual Stream SAE Layer 8 (Anthropic/Neuronpedia) + Attention Attribution",
+        "preflight": {
+          "estimated_runtime_fast": "< 5s",
+          "estimated_runtime_deep": "~15s",
+          "vram_footprint": "480 MB (Safe · Low Risk)",
+          "expected_concept_yield": "High (92%)",
+          "steerability_score": "0.88 (Clean Causal Separability)"
+        }
+      },
+      "timeline": [
+        {
+          "time_s": 0,
+          "stage_label": "0s — Model Ready & Profiling",
+          "status_text": "Model geometry profiled. AI heuristic search matching literature rules...",
+          "summary": "AutoExplain initiates streaming exploration without blocking the UI.",
+          "candidates": [],
+          "verified_steers": []
+        },
+        {
+          "time_s": 5,
+          "stage_label": "5s — First Suggestions (Heuristic Path)",
+          "status_text": "Fast path: Surfaced 3 candidate concepts via residual stream SAE heuristics.",
+          "summary": "Top candidates shown early; verification continues in the background.",
+          "candidates": [
+            {
+              "id": "cand-is",
+              "token": "is",
+              "concept": "Predicting 'Paris' as the capital city of France",
+              "confidence": 0.85,
+              "tags": ["Capital Prediction", "Fact Recall"],
+              "badge": "Candidate (Unverified)",
+              "source": "SAE Layer 8 Heuristic"
+            },
+            {
+              "id": "cand-france",
+              "token": "France",
+              "concept": "Sovereign entity: French Republic",
+              "confidence": 0.78,
+              "tags": ["Country", "Europe"],
+              "badge": "Candidate (Unverified)",
+              "source": "SAE Layer 7 Heuristic"
+            },
+            {
+              "id": "cand-capital",
+              "token": "capital",
+              "concept": "Administrative seat of government & metropolis",
+              "confidence": 0.72,
+              "tags": ["Governance", "Geography"],
+              "badge": "Candidate (Unverified)",
+              "source": "SAE Layer 8 Heuristic"
+            }
+          ],
+          "verified_steers": []
+        },
+        {
+          "time_s": 10,
+          "stage_label": "10s — Better Suggestions (Continuous Ranking)",
+          "status_text": "Rankings updated with token attribution evidence. Added relational preposition.",
+          "summary": "Ranking refined and confidence updated based on live activation evidence.",
+          "candidates": [
+            {
+              "id": "cand-is",
+              "token": "is",
+              "concept": "Predicting 'Paris' as the capital city of France",
+              "confidence": 0.98,
+              "tags": ["Capital Prediction", "Fact Recall", "High Confidence"],
+              "badge": "Refined Candidate",
+              "source": "SAE Layer 8 Refined"
+            },
+            {
+              "id": "cand-france",
+              "token": "France",
+              "concept": "Sovereign entity: French Republic (Western Europe, Eurozone, Paris hub)",
+              "confidence": 0.95,
+              "tags": ["Country", "Europe", "France"],
+              "badge": "Refined Candidate",
+              "source": "SAE Layer 7 Refined"
+            },
+            {
+              "id": "cand-capital",
+              "token": "capital",
+              "concept": "Administrative seat of government and primary political metropolis",
+              "confidence": 0.88,
+              "tags": ["Governance", "Geography", "Metropolis"],
+              "badge": "Refined Candidate",
+              "source": "SAE Layer 8 Refined"
+            },
+            {
+              "id": "cand-of",
+              "token": "of",
+              "concept": "Relational preposition binding attribute to sovereign state",
+              "confidence": 0.65,
+              "tags": ["Syntax", "Relation"],
+              "badge": "Refined Candidate",
+              "source": "Attention Head Attribution"
+            }
+          ],
+          "verified_steers": []
+        },
+        {
+          "time_s": 15,
+          "stage_label": "15s — Verified Causal Interventions",
+          "status_text": "Causal verification complete: 2 steering interventions verified with clean separability.",
+          "summary": "Interventions validated through minimal causal checks; ready for side-by-side steering.",
+          "candidates": [
+            {
+              "id": "cand-is",
+              "token": "is",
+              "concept": "Predicting 'Paris' as the capital city of France",
+              "confidence": 0.98,
+              "tags": ["Capital Prediction", "Fact Recall"],
+              "badge": "Verified Concept",
+              "source": "SAE Layer 8 Validated"
+            },
+            {
+              "id": "cand-france",
+              "token": "France",
+              "concept": "Sovereign entity: French Republic (Western Europe, Eurozone, Paris hub)",
+              "confidence": 0.95,
+              "tags": ["Country", "Europe", "France"],
+              "badge": "Verified Concept",
+              "source": "SAE Layer 7 Validated"
+            }
+          ],
+          "verified_steers": [
+            {
+              "id": "steer-tokyo",
+              "name": "📌 Tokyo Steer",
+              "concept": "Tokyo / Japan",
+              "mode": "boost",
+              "intensity": 0.85,
+              "badge": "Verified Steer",
+              "causal_effect": "100% replacement of Paris -> Tokyo with 0.02 perplexity delta",
+              "tags": ["Verified Steer", "Clean Causal Effect"]
+            },
+            {
+              "id": "steer-suppress-paris",
+              "name": "🚫 Suppress Paris",
+              "concept": "Suppress Paris",
+              "mode": "suppress",
+              "intensity": -0.9,
+              "badge": "Verified Suppression",
+              "causal_effect": "Suppressed exact city token; clean fallback to cultural description",
+              "tags": ["Verified Suppression", "Low Collateral Damage"]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }

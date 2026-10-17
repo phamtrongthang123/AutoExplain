@@ -47,6 +47,10 @@ class SavePresetRequest(BaseModel):
     mode: str = "boost"
 
 
+class DiscoveryStepRequest(BaseModel):
+    elapsed: int = 0
+
+
 def load_fixture() -> Dict[str, Any]:
     """Load mock data fixture."""
     if not FIXTURE_PATH.exists():
@@ -79,9 +83,54 @@ def create_app() -> FastAPI:
         "active_prompt": fixture["default_prompt"],
         "prompts_data": dict(fixture["prompts"]),
         "presets": list(fixture["initial_presets"]),
+        "discovery_data": dict(fixture.get("discovery", {})),
+        "discovery_elapsed": 15,  # initial cold start displays complete findings
         "active_steer": None,
         "selected_token_index": 4,  # default to "is"
     }
+
+    def get_discovery_for_model(model_name: str, elapsed: Optional[int] = None) -> Dict[str, Any]:
+        discovery_dict = state.get("discovery_data", {})
+        default_disc = discovery_dict.get(model_name) or discovery_dict.get("default", {})
+
+        profile = default_disc.get(
+            "architecture_profile",
+            {
+                "family": "Transformer Checkpoint",
+                "params": "Custom",
+                "layers": 12,
+                "d_model": 768,
+                "heads": 12,
+                "matched_heuristic": "Literature Rule: Residual Stream SAE Layer 8 + Attention Attribution",
+                "preflight": {
+                    "estimated_runtime_fast": "< 5s",
+                    "estimated_runtime_deep": "~15s",
+                    "vram_footprint": "480 MB (Safe · Low Risk)",
+                    "expected_concept_yield": "High (92%)",
+                    "steerability_score": "0.88 (Clean Causal Separability)",
+                },
+            },
+        )
+
+        timeline = default_disc.get("timeline", [])
+        target_elapsed = elapsed if elapsed is not None else state.get("discovery_elapsed", 15)
+
+        current_stage = timeline[0] if timeline else {}
+        for stage in timeline:
+            if stage.get("time_s", 0) <= target_elapsed:
+                current_stage = stage
+            else:
+                break
+
+        return {
+            "model": model_name,
+            "elapsed": target_elapsed,
+            "stage": current_stage,
+            "architecture_profile": profile,
+            "preflight": profile.get("preflight", {}),
+            "available_steps": [0, 5, 10, 15],
+            "next_step_in": 5 if target_elapsed < 15 else None,
+        }
 
     # Helper: resolve prompt data
     def get_prompt_info(prompt_text: str) -> Dict[str, Any]:
@@ -158,7 +207,19 @@ def create_app() -> FastAPI:
             "active_steer": state["active_steer"],
             "presets": state["presets"],
             "neuronpedia_live": is_live_configured(),
+            "discovery": get_discovery_for_model(state["active_model"]),
         }
+
+    @app.get("/api/discovery/status")
+    async def get_discovery_status(elapsed: Optional[int] = None):
+        if elapsed is not None:
+            state["discovery_elapsed"] = elapsed
+        return get_discovery_for_model(state["active_model"], elapsed)
+
+    @app.post("/api/discovery/step")
+    async def set_discovery_step(req: DiscoveryStepRequest):
+        state["discovery_elapsed"] = req.elapsed
+        return get_discovery_for_model(state["active_model"], req.elapsed)
 
     @app.get("/api/models")
     async def list_models():
@@ -179,7 +240,12 @@ def create_app() -> FastAPI:
                 "status": "ready",
             })
         state["active_model"] = req.model
-        return {"status": "ok", "active_model": state["active_model"]}
+        state["discovery_elapsed"] = 0  # reset streaming exploration to 0s for new model
+        return {
+            "status": "ok",
+            "active_model": state["active_model"],
+            "discovery": get_discovery_for_model(state["active_model"], 0),
+        }
 
     @app.post("/api/models/upload")
     async def upload_model_checkpoint(file: UploadFile = File(...)):
@@ -197,11 +263,13 @@ def create_app() -> FastAPI:
         if not any(m["id"] == filename for m in state["models"]):
             state["models"].append(new_model)
         state["active_model"] = filename
+        state["discovery_elapsed"] = 0  # start streaming exploration at 0s upon upload
 
         return {
             "status": "ok",
-            "message": f"Checkpoint {filename} loaded successfully.",
+            "message": f"Checkpoint {filename} loaded successfully. Starting Anytime Streaming Discovery...",
             "active_model": filename,
+            "discovery": get_discovery_for_model(filename, 0),
         }
 
     @app.post("/api/interpret")
