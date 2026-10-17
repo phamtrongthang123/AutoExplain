@@ -5,8 +5,8 @@ Start by creating `autoexplain/web/fixtures/neuronpedia_mock.json` with the extr
 
 ### Core User Stories
 
-1. **The First-Time Visitor (Zero-Setup Exploration):**
-   - *"As a user opening the app for the first time, I want to immediately click on words in a pre-loaded sentence (`'The capital of France is'`) and see what the model is thinking, so I don't get stuck wondering what to configure first."*
+1. **The Streaming Explorer (Anytime Streaming Discovery):**
+   - AutoExplain operates as an anytime streaming discovery engine—like search autocomplete—surfacing the first actionable concept suggestions within 5 seconds of loading a model rather than blocking on an exhaustive batch pipeline. Every 5 seconds, background exploration streams higher-ranked candidates, refines evidence, and promotes causally verified steering interventions as they become available. Users can interact with, inspect, or apply steering to any current result immediately without ever waiting for the search to finish.
 
 2. **The Interpreter (Reading Internal Meaning):**
    - *"As a user inspecting a prompt, I want to click any word and read a plain-English description of the concept firing at that word, without sifting through layer numbers, feature IDs, or histograms."*
@@ -85,10 +85,6 @@ AutoExplain provides eight actions on a loaded model, which map directly to the 
 - `open_model` & `inspect` → Top Header (`.pt` upload placeholder & model selector)
 - `run` & `observe` → Card 1 (`1. Interpret` prompt execution & token thought readout)
 - `intervene`, `evaluate`, `reset`, & `record` → Card 2 (`2. Steer` live comparison, reset, and saving steering vectors across models)
-
-
-```
-
 ```
               ┌──────────────────────────────────────────────┐
               │              AutoExplain Harness             │
@@ -99,14 +95,35 @@ AutoExplain provides eight actions on a loaded model, which map directly to the 
     ┌───────────────┬────────────────┼───────────────┬───────────────┐
     │               │                │               │               │
     ▼               ▼                ▼               ▼               ▼
-
-```
-
 ┌─────────┐    ┌───────────┐    ┌───────────┐   ┌───────────┐   ┌───────────┐
-│   SAE   │    ┌───────────┐    │    NLA    │   │Block-Spar.│   │ Manifold  │ ... (Methods)
-│ Sparse  │    │ Jacobian  │    │Activation │   │Multidim.  │   │ Steering  │
-│Features │    │  Readouts │    │  Language │   │ Concepts  │   │ Intervene │
+│   SAE   │    │ Jacobian  │    │    NLA    │   │Block-Spar.│   │ Manifold  │ ... (Methods)
+│ Sparse  │    │  Readouts │    │Activation │   │Multidim.  │   │ Steering  │
+│Features │    │           │    │  Language │   │ Concepts  │   │ Intervene │
 └─────────┘    └───────────┘    └───────────┘   └───────────┘   └───────────┘
-
 ```
 
+---
+
+## AI-Based Heuristic Search & Pre-Flight Estimator
+
+AutoExplain functions as an anytime streaming discovery engine powered by an AI-based heuristic search planner, avoiding blind, expensive brute-force passes across neural architectures.
+
+### 1. Literature Knowledge Base (Paper-to-Rule Engine)
+- **Architecture Profiling:** Automatically extracts model geometry ($d_{\text{model}}$, layer count, attention heads, activation functions, residual stream dimensions).
+- **Paper-Informed Rules:** Maps architectural patterns to proven interpretability methods based on top-tier literature (e.g., Anthropic, Goodfire, OpenAI, TransformerLens):
+  - *Small Residual Streams (e.g., GPT-2 small):* Prioritize mid-to-late residual stream sparse autoencoders (Layers 7–9) for clean entity prediction concepts.
+  - *Wide/Deeper LLMs (e.g., Llama-style, Mistral):* Prioritize transcoder representations and block-sparse multidimensional concepts.
+  - *Dense Attention Networks:* Use Jacobian readout and attention attribution heads for fast syntax and relational bound identification.
+
+### 2. Pre-Flight "Cost vs. Yield" Estimator
+Before the user commits compute resources or waits on deep analysis, AutoExplain computes an instant pre-flight estimate to inform the user before paying tremendous search time:
+- **Estimated Runtime:** Compares instant heuristic lookup ($\le 5\text{s}$), targeted verification ($\approx 10\text{--}15\text{s}$), and full dictionary sweeps ($> 10\text{min}$).
+- **Resource Footprint:** Estimates VRAM usage and memory requirements to proactively prevent Out-Of-Memory (OOM) failures.
+- **Expected Concept Yield & Steerability Score:** Predicts the likelihood of discovering clean, causally steerable concepts without causing perplexity degradation or collateral damage.
+
+### 3. Progressive Anytime Priority Scheduling
+Execution is prioritized by the ratio of $\frac{\text{Expected Yield}}{\text{Compute Cost}}$:
+- **0s — Model Profiling & Triage:** Architectural rules match the checkpoint and initialize the pre-flight estimate card.
+- **5s — Fast Heuristic Path:** Surfaces first candidate concepts using lightweight heuristics, cached dictionaries, or sparse projections.
+- **10s–15s — Targeted Verification:** Runs minimal causal intervention tests to validate candidate stability.
+- **Deep Search (Optional / On-Demand):** Expands to full dictionary training, multidimensional sweeps, or exhaustive causal tracing only when explicitly requested.
